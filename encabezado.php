@@ -1,10 +1,7 @@
 <?php
 /*
-	Pequeño, muy pequeño sistema de ventas en PHP con MySQL
+	@author Anibal Chaves Badilla
 
-	@author parzibyte
-
-	No olvides visitar parzibyte.me/blog para más cosas como esta
 */
 ?>
 <!DOCTYPE html>
@@ -14,11 +11,16 @@
 	<title>Ventas</title>
 	
 	<link rel="stylesheet" href="./css/fontawesome-all.min.css">
-	<link rel="stylesheet" href="./css/2.css">
+        <link href="plugins/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="./css/estilo.css">
+        <script src="plugins/jquery/jquery.min.js" type="text/javascript"></script>
+        
+        <script src="controller.js" type="text/javascript"></script>
+        <script src="plugins/bootstrap-4.0.0/dist/js/bootstrap.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="./css/2.css">
 </head>
 <body>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse  navbar-expand-lg navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">POS</a>
@@ -33,4 +35,4 @@
 		</div>
 	</nav>
 	<div class="container">
-		<div class="row">
+		

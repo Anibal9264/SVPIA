@@ -1,47 +1,48 @@
 <?php
-if (!isset($_POST["codigo"])) {
+if (!isset($_REQUEST["codigo"])) {
     return;
 }
 
-$codigo = $_POST["codigo"];
+$id = $_REQUEST["codigo"];
 include_once "base_de_datos.php";
-$sentencia = $base_de_datos->prepare("SELECT * FROM productos WHERE codigo = ? LIMIT 1;");
-$sentencia->execute([$codigo]);
+$sentencia = $base_de_datos->prepare("SELECT * FROM productos WHERE id = ?;");
+$sentencia->execute([$id]);
 $producto = $sentencia->fetch(PDO::FETCH_OBJ);
-# Si no existe, salimos y lo indicamos
-if (!$producto) {
-    header("Location: ./vender.php?status=4");
-    exit;
-}
-# Si no hay existencia...
-if ($producto->existencia < 1) {
-    header("Location: ./vender.php?status=5");
-    exit;
-}
+
 session_start();
 # Buscar producto dentro del cartito
 $indice = false;
-for ($i = 0; $i < count($_SESSION["carrito"]); $i++) {
-    if ($_SESSION["carrito"][$i]->codigo === $codigo) {
+for ($i = 1; $i < count($_SESSION["carrito"]); $i++) {
+    $idt = $_SESSION["carrito"][$i]["producto"]->id;
+    if ($idt=== (int)$id) {
         $indice = $i;
         break;
     }
 }
+
+
+
+
+
 # Si no existe, lo agregamos como nuevo
 if ($indice === false) {
-    $producto->cantidad = 1;
-    $producto->total = $producto->precioVenta;
-    array_push($_SESSION["carrito"], $producto);
+    $array = array(
+    "producto" => $producto,
+    "cantidad" => 1,
+    );
+    
+    if(count($_SESSION["carrito"])==0){
+         $total = (int)$producto->precioVenta;
+         array_push($_SESSION["carrito"],$total);
+    }else{
+       $_SESSION["carrito"][0] += (int)$producto->precioVenta; 
+    }
+    array_push($_SESSION["carrito"],$array);
 } else {
     # Si ya existe, se agrega la cantidad
     # Pero espera, tal vez ya no haya
-    $cantidadExistente = $_SESSION["carrito"][$indice]->cantidad;
-    # si al sumarle uno supera lo que existe, no se agrega
-    if ($cantidadExistente + 1 > $producto->existencia) {
-        header("Location: ./vender.php?status=5");
-        exit;
-    }
-    $_SESSION["carrito"][$indice]->cantidad++;
-    $_SESSION["carrito"][$indice]->total = $_SESSION["carrito"][$indice]->cantidad * $_SESSION["carrito"][$indice]->precioVenta;
+
+   $_SESSION["carrito"][$indice]["cantidad"]++;
+   $_SESSION["carrito"][0] += (int)$producto->precioVenta;
 }
 header("Location: ./vender.php");
