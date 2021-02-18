@@ -6,14 +6,15 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 	<div class="col-xs-12">
-		<h1>Productos</h1>
+		 <h1 class="h3 mb-0 text-gray-800">PRODUCTOS</h1>
+    <br>
 		<div>
 			<a class="btn btn-success" href="./formulario.php">Nuevo <i class="fa fa-plus"></i></a>
 		</div>
 		<br>
                  <input class="form-control" id="myInput" type="text" placeholder="Search..">
                  <br>
-		<table class="table table-bordered">
+                 <table class="table table-bordered" id="Tproductos">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -25,7 +26,11 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 					<th>Eliminar</th>
 				</tr>
 			</thead>
-			<tbody id="myTable">
+                       
+			<tbody id="Bproductos">
+                            
+     
+        
 				<?php foreach($productos as $producto){ ?>
 				<tr>
 					<td><?php echo $producto->id ?></td>
@@ -38,6 +43,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 				</tr>
 				<?php } ?>
 			</tbody>
+                         
 		</table>
 	</div>
 <?php include_once "pie.php" ?>

@@ -1,3 +1,3 @@
 <?php
-header("Location: listar.php");
+header("Location: vender.php");
 ?>

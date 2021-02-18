@@ -20,10 +20,6 @@ for ($i = 1; $i < count($_SESSION["carrito"]); $i++) {
     }
 }
 
-
-
-
-
 # Si no existe, lo agregamos como nuevo
 if ($indice === false) {
     $array = array(

@@ -4,5 +4,45 @@ body{
 
 .addScroll{
   overflow-y:auto;
-  height: 500px;
+  height: 480px;
+}
+
+#Tproductos, #Bproductos { 
+    display: block;
+}
+
+tbody {
+    height: 282px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}
+
+#Bproductos td , #Tproductos th {
+    width: 10.8%;
+}
+
+.text-xs {
+    font-size: 1.3rem;
+}
+
+#btBorar{
+    margin-top: 2.5rem!important;
+    margin-bottom: 1.5rem!important;
+}
+  
+.modal-content {
+    position: fixed;
+}
+
+.col-lg-6 {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#BIngresos td{
+    width: 10%;
+}
+
+#TIngresos th{
+     width: 10%;
 }

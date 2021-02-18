@@ -29,6 +29,11 @@ $uploads_dir = '/opt/lampp/htdocs/PVPIA/uploads';
         $img = "uploads/$name";
     }
 
+$sentencia1 = $base_de_datos->query("SELECT impuesto FROM local where id = 1;");
+$result = $sentencia1->fetch(PDO::FETCH_OBJ);
+$r1 = "0.".(int)$result->impuesto;
+$tImpuesto = $precioVenta * (float)$r1;
+$precionoimpuestos = $precioVenta - $tImpuesto;
 
 
 $sentencia = $base_de_datos->prepare("UPDATE productos SET descripcion = ?, precioVenta = ?, precioNoImpuestos = ?, img = ? WHERE id = ?;");
