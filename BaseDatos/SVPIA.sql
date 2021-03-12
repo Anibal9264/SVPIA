@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 09-03-2021 a las 01:03:37
+-- Tiempo de generación: 12-03-2021 a las 19:46:24
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "-06:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -32,17 +32,17 @@ USE `SVPIA`;
 DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE IF NOT EXISTS `categoria` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(255) NOT NULL DEFAULT 'Ninguna',
-  `img` varchar(255) NOT NULL DEFAULT 'imgCat/image.png',
+  `descripcion` varchar(255) NOT NULL DEFAULT 'NoNe',
+  `img` varchar(255) NOT NULL DEFAULT 'imgCat/default.jpg',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `categoria`
 --
 
 INSERT INTO `categoria` (`id`, `descripcion`, `img`) VALUES
-(1, 'Ninguna', 'imgCat/image.png');
+(1, 'Ninguna', 'imgCat/2021-03-08 21-06-20.png');
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `ingresos` (
   `fecha` date NOT NULL,
   `archivo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -84,15 +84,17 @@ CREATE TABLE IF NOT EXISTS `local` (
   `tipoDeCambio` decimal(10,2) NOT NULL DEFAULT 0.00,
   `correo` varchar(255) DEFAULT NULL,
   `logotipo` varchar(255) DEFAULT NULL,
+  `user` varchar(255) NOT NULL DEFAULT 'admin',
+  `password` varchar(255) NOT NULL DEFAULT 'admin',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `local`
 --
 
-INSERT INTO `local` (`id`, `nombre`, `subNombre`, `propietario`, `cedula`, `direccionExacta`, `provincia`, `canton`, `distrito`, `telefono`, `impuesto`, `tipoDeCambio`, `correo`, `logotipo`) VALUES
-(1, 'Nombre', 'sub Nombre', 'Propietario', '000-0000', 'Direción exacta', 'Província', 'Cantón', 'distrito', '88888888', '13.00', '0.00', 'correo@gmail.com', 'logo/image.png');
+INSERT INTO `local` (`id`, `nombre`, `subNombre`, `propietario`, `cedula`, `direccionExacta`, `provincia`, `canton`, `distrito`, `telefono`, `impuesto`, `tipoDeCambio`, `correo`, `logotipo`, `user`, `password`) VALUES
+(1, 'Nombre', 'Sub Nombre', 'Propietario', '000-0000', 'Direción exacta', 'Província', 'Cantón', 'distrito', '88888888', '13.00', '605.00', 'correo@gmail.com', 'logo/image.png', 'admin', 'admin');
 
 -- --------------------------------------------------------
 
@@ -106,27 +108,14 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `img` varchar(255) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   `precioVenta` decimal(10,2) DEFAULT NULL,
-  `precioNoImpuestos` decimal(10,2) DEFAULT NULL,
   `categoria` int(11) DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `fk_producto_categoria` (`categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `productos_vendidos`
---
-
-DROP TABLE IF EXISTS `productos_vendidos`;
-CREATE TABLE IF NOT EXISTS `productos_vendidos` (
-  `producto` int(11) NOT NULL,
-  `factura` int(11) NOT NULL,
-  `cantidad` int(11) DEFAULT NULL,
-  PRIMARY KEY (`producto`,`factura`),
-  KEY `fk_productos_has_factura_factura1_idx` (`factura`),
-  KEY `fk_productos_has_factura_productos_idx` (`producto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE `productos`
+  ADD CONSTRAINT `fk_producto_categoria` FOREIGN KEY (`categoria`) REFERENCES `categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- --------------------------------------------------------
 
@@ -139,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `tipoPago` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `tipoPago`
@@ -161,41 +150,43 @@ CREATE TABLE IF NOT EXISTS `ventas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` datetime NOT NULL,
   `total` decimal(10,2) NOT NULL,
-  `totalsinImpuestos` decimal(10,2) DEFAULT NULL,
-  `totalimpuestos` decimal(10,2) NOT NULL,
   `cliente` varchar(255) DEFAULT NULL,
   `cantidadPersonas` int(11) DEFAULT NULL,
-  `local` int(11) NOT NULL,
+  `local` int(11) NOT NULL DEFAULT 1,
   `tipoPago` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `fk_ventas_local1_idx` (`local`),
   KEY `fk_ventas_tipoPago` (`tipoPago`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Restricciones para tablas volcadas
---
 
---
--- Filtros para la tabla `productos`
---
-ALTER TABLE `productos`
-  ADD CONSTRAINT `fk_producto_categoria` FOREIGN KEY (`categoria`) REFERENCES `categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `productos_vendidos`
---
-ALTER TABLE `productos_vendidos`
-  ADD CONSTRAINT `fk_productos_has_factura_factura1` FOREIGN KEY (`factura`) REFERENCES `ventas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_productos_has_factura_productos` FOREIGN KEY (`producto`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `ventas`
---
 ALTER TABLE `ventas`
   ADD CONSTRAINT `fk_ventas_local1` FOREIGN KEY (`local`) REFERENCES `local` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_ventas_tipoPago` FOREIGN KEY (`tipoPago`) REFERENCES `tipoPago` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
+
+
+
+--
+-- Estructura de tabla para la tabla `productos_vendidos`
+--
+
+DROP TABLE IF EXISTS `productos_vendidos`;
+CREATE TABLE IF NOT EXISTS `productos_vendidos` (
+  `producto` int(11) NOT NULL,
+  `factura` int(11) NOT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  PRIMARY KEY (`producto`,`factura`),
+  KEY `fk_productos_has_factura_factura1_idx` (`factura`),
+  KEY `fk_productos_has_factura_productos_idx` (`producto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE `productos_vendidos`
+  ADD CONSTRAINT `fk_productos_has_factura_factura1` FOREIGN KEY (`factura`) REFERENCES `ventas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_productos_has_factura_productos` FOREIGN KEY (`producto`) REFERENCES `productos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- --------------------------------------------------------
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
