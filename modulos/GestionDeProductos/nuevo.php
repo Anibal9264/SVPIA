@@ -1,6 +1,11 @@
 <?php
+if (!$_SESSION['Logeado']){
+header ("Location: index.php?p=login");
+exit;
+}
 #Salir si alguno de los datos no está presente
 if(!isset($_POST["descripcion"]) || 
+   !isset($_POST["categorias"]) || 
    !isset($_POST["precioVenta"]))
     exit();
 
@@ -9,6 +14,7 @@ if(!isset($_POST["descripcion"]) ||
 include_once "base_de_datos.php";
 $descripcion = $_POST["descripcion"];
 $precioVenta = $_POST["precioVenta"];
+$categoria = $_POST["categorias"];
 
 $img = "";
 
@@ -19,28 +25,21 @@ include_once 'configuracion.php';
     mkdir($uploads_dir, 0777, true);
     }
  if ($_FILES["archivo"]) {
-        $rand = date("Y-m-d H:i:s");
+        $rand = date("Y-m-d H-i-s");
         $tmp_name = $_FILES["archivo"]["tmp_name"];
-        $name = $rand.basename($_FILES["archivo"]["name"]);
+        $path = $_FILES['archivo']['name'];
+        $ext = ".".pathinfo($path, PATHINFO_EXTENSION);
+        $name = $rand.basename($ext);
         move_uploaded_file($tmp_name, "$uploads_dir/$name");
         $img = "uploads/$name";
     }
 
-$sentencia1 = $base_de_datos->query("SELECT impuesto FROM local where id = 1;");
-$result = $sentencia1->fetch(PDO::FETCH_OBJ);
-$r1 = "0.".(int)$result->impuesto;
-$tImpuesto = $precioVenta * (float)$r1;
-$precionoimpuestos = $precioVenta - $tImpuesto;
+$sentencia = $base_de_datos->prepare("INSERT INTO productos(descripcion, precioVenta,categoria, img) VALUES (?, ?, ?, ?);");
+$resultado = $sentencia->execute([$descripcion, $precioVenta,$categoria,$img]);
 
-
-$sentencia = $base_de_datos->prepare("INSERT INTO productos(descripcion, precioVenta, precioNoImpuestos, img) VALUES (?, ?, ?, ?);");
-$resultado = $sentencia->execute([$descripcion, $precioVenta, $precionoimpuestos,$img]);
-
-if($resultado === TRUE){
-	header("Location: ./index.php?p=productos");
-	exit;
+if ($resultado === TRUE) {
+    header("Location: ./index.php?p=productos&correcto=new");
+} else {
+    header("Location: ./index.php?p=productos&correcto=error");
 }
-else echo "Algo salió mal. Por favor verifica que la tabla exista";
-
-
-?>
+exit;

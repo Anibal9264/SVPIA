@@ -1,15 +1,36 @@
 .addScroll{
   overflow-y:auto;
-  height: 480px;
+  height: 330px;
 }
 .addScroll2{
   overflow-y:auto;
   height: 550px;
 }
-
-#Tproductos, #Bproductos { 
-    display: block;
+.addScroll3{
+  overflow-y: auto;
+  height: 490px;
+  overflow-x: hidden;
 }
+.addScroll4{
+  overflow-y:auto;
+  height: 440px;
+}
+.addScroll5{
+  overflow-y:auto;
+  height: 210px;
+}
+
+.addScroll6{
+  overflow-y:auto;
+  height: 430px;
+}
+
+.addScroll7{
+  overflow-y:auto;
+  height: 380px;
+}
+
+
 
 tbody {
     height: 282px;       /* Just for the demo          */
@@ -17,9 +38,7 @@ tbody {
     overflow-x: hidden;  /* Hide the horizontal scroll */
 }
 
-#Bproductos td , #Tproductos th {
-    width: 10.8%;
-}
+
 
 .text-xs {
     font-size: 1.3rem;
@@ -45,7 +64,7 @@ tbody {
 
 .topnav {
   overflow: hidden;
-  background-color: #333;
+  background-color: #4e73df!important;
 }
 
 .topnav a {
@@ -92,4 +111,111 @@ tbody {
     display: block;
     text-align: left;
   }
+}
+
+
+
+
+
+/*----  Main Style  ----*/
+
+.card-flyer {
+  border-radius: 5px;
+}
+.card-flyer .image-box{
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.50);
+  border-radius: 5px;
+}
+.card-flyer .image-box img{
+  -webkit-transition:all .9s ease; 
+  -moz-transition:all .9s ease; 
+  -o-transition:all .9s ease;
+  -ms-transition:all .9s ease; 
+  width: 100%;
+  height: 100px;
+}
+.card-flyer:hover .image-box img{
+  opacity: 0.7;
+  -webkit-transform:scale(1.15);
+  -moz-transform:scale(1.15);
+  -ms-transform:scale(1.15);
+  -o-transform:scale(1.15);
+  transform:scale(1.15);
+}
+.card-flyer .text-box{
+  text-align: center;
+  height: 90%;
+}
+card-flyer .text-box .text-container{
+  padding: 30px 18px;
+}
+.card-flyer{
+  background: #FFFFFF;
+  margin-top: 50px;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  -ms-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.40);
+}
+.card-flyer:hover{
+  background: #fff;
+  box-shadow: 0px 15px 26px rgba(0, 0, 0, 0.50);
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  -ms-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  margin-top: 50px;
+}
+.card-flyer .text-box p{
+  margin-top: 10px;
+  margin-bottom: 0px;
+  padding-bottom: 0px; 
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: #000000;
+}
+.card-flyer .text-box h6{
+  margin-top: 0px;
+  margin-bottom: 4px; 
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: 'Roboto Black', sans-serif;
+  letter-spacing: 1px;
+  color: #00acc1;
+}
+
+.col-mod {
+    max-width: 16%;
+}
+
+.btn-mod{
+    border-radius: 5px;
+}
+
+.w-0{
+    width: 0%;
+}
+
+.ml-mod1 {
+    margin-left: 16rem!important;
+}
+
+.ml-mod2 {
+    margin-left:32rem!important;
+}
+
+select.form-control-mod:not([size]):not([multiple]) {
+    height: auto;
+}
+
+.alert-mod {
+    padding: 4px;
+    margin-bottom: -24px;
+    position: fixed;
 }

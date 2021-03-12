@@ -2,7 +2,7 @@
 if (!isset($_GET["id"]))
     exit();
 $id = $_GET["id"];
-include_once "base_de_datos.php";
+include_once "../../base_de_datos.php";
 $sentencia = $base_de_datos->prepare("SELECT * FROM ingresos WHERE id = ?;");
 $sentencia->execute([$id]);
 $ingreso = $sentencia->fetch(PDO::FETCH_OBJ);
@@ -10,31 +10,51 @@ if ($ingreso === FALSE) {
     echo "¡No existe algún producto con ese ID!";
     exit();
 }
-?>
-<div class="col-xs-3"></div>
-<div class="col-xs-6">
-    <h1 class="h3 mb-0 text-gray-800">EDITAR INGRESO</h1>
-    <br> <br>
-    <form method="post" action="index.php?p=changeIngresos">
-        <input type="hidden" name="id" value="<?php echo $ingreso->id; ?>">
+echo "
+    <h1 class=' h3 mb-1 text-gray-800'>EDITAR COMPRA</h1>
+    
+    <form method='post' action='index.php?p=changeIngresos' enctype='multipart/form-data'>
+    <input type='hidden' name='id' value='$ingreso->id'>
+    <input type='hidden' name='archivoT' value='$ingreso->archivo'>
+        <div class='form-row'> 
+        <div class='form-group col'>
+            <label for='FacturaN'>Factura nº</label>
+            <input type='text' required class='form-control' maxlength='255'  name='FacturaN' id='FacturaN' value='$ingreso->facturaNumero'>
+        </div>
+        <div class='form-group col'>
+            <label for='fecha'>Fecha de ingreso</label>
+            <input type='text' value='$ingreso->fecha'  required  maxlength='255'class='form-control' name='fecha' id='fecha'>
+        </div>
+        </div>
+         <div class='form-row'> 
+        <div class='form-group col'>
+            <label for='producto'>Producto:</label>
+            <input class='form-control' value='$ingreso->producto'  name='producto' required type='txt' maxlength='255' id='producto' placeholder='Producto'>
+        </div>
+         <div class='form-group col'>
+            <label for='monto'>Monto en colones:</label>
+            <input class='form-control' value='$ingreso->monto' name='monto' required type='number' id='monto' placeholder='Monto'>
+        </div>
+        </div>
+        <div class='form-row'> 
+        <div class='form-group col'>
+            <label for='proveedor'>Proveedor:</label>
+            <input class='form-control'value='$ingreso->proveedor' name='proveedor' required  maxlength='255' type='txt' id='proveedor' placeholder='proveedor'>
+        </div>
+        <div class='form-check col'>
+            <label class='form-check-label' for='cambiar'>Marque para Cargar un achivo</label>
+            <input class='form-check-input ml-5' type='checkbox'
+            onchange='cambiarChech();' id='cambiar' name='cambiar'>
+          <div id='cargarimg'>
 
-        <div class="form-group">
-            <label for="fecha">Fecha de ingreso</label>
-            <input type="date" value="<?php echo $ingreso->fecha; ?>"  required class="form-control" name="fecha" id="fecha">
+           </div>
+
         </div>
-        <div class="form-group">
-            <label for="producto">Producto:</label>
-            <input class="form-control" value="<?php echo $ingreso->producto;?>" name="producto" required type="txt" id="producto" placeholder="Producto">
         </div>
-         <div class="form-group">
-            <label for="monto">Monto en colones:</label>
-            <input class="form-control" value="<?php echo $ingreso->monto; ?>" name="monto" required type="number" id="monto" placeholder="Monto">
+
+         <div class='form-group'>
+        <input class='btn btn-info' type='submit' value='Guardar'>
+        <a class='btn btn-danger' href='./index.php?p=ingresos'>Cancelar</a>
         </div>
-        <div class="form-group">
-            <label for="proveedor">Proveedor:</label>
-            <input class="form-control" value="<?php echo $ingreso->proveedor; ?>" name="proveedor" required type="txt" id="proveedor" placeholder="Monto">
-        </div>
-        <br><br><input class="btn btn-info" type="submit" value="Guardar">
-        <a class="btn btn-warning" href="./index.php?p=ingresos">Cancelar</a>
     </form>
-</div>
+";

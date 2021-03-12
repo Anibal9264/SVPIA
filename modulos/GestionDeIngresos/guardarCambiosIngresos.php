@@ -21,7 +21,7 @@ $sentencia = $base_de_datos->prepare("UPDATE ingresos SET producto = ?, proveedo
 $resultado = $sentencia->execute([$producto,$proveedor, $monto, $fecha, $id]);
 
 if($resultado === TRUE){
-	header("Location: ./index.php?p=ingresos");
+	header("Location: ./index.php?p=ingresos&correcto=mod");
 	exit;
 }
 else echo "Algo salió mal. Por favor verifica que la tabla exista, así como el ID del producto";

@@ -22,15 +22,14 @@
             case'changeProduct':include_once 'modulos/GestionDeProductos/guardarDatosEditados.php';break;
             //Gestion de Ingresos
             case'ingresos':include_once 'modulos/GestionDeIngresos/ingresos.php';break;
-            case'formularioIngreso':include_once 'modulos/GestionDeIngresos/formularioIngreso.php';break;
             case'editIngreso':include_once 'modulos/GestionDeIngresos/editarIngreso.php';break;
             case'delIngreso':include_once 'modulos/GestionDeIngresos/eliminarIngreso.php';break;
             case'newIngreso':include_once 'modulos/GestionDeIngresos/nuevoIngreso.php';break;
             case'changeIngresos':include_once 'modulos/GestionDeIngresos/guardarCambiosIngresos.php';break;
             //Gestion de ventas
-            case'quitarDelCarrito':include_once 'modulos/GestionDeVentas/quitarDelCarrito.php';break; 
-            case'agregarAlCarrito':include_once 'modulos/GestionDeVentas/agregarAlCarrito.php';break; 
-            case'cancelVenta':include_once 'modulos/GestionDeVentas/cancelarVenta.php';break; 
+//            case'quitarDelCarrito':include_once 'modulos/GestionDeVentas/quitarDelCarrito.php';break; 
+//            case'agregarAlCarrito':include_once 'modulos/GestionDeVentas/agregarAlCarrito.php';break; 
+//            case'cancelVenta':include_once 'modulos/GestionDeVentas/cancelarVenta.php';break; 
             case'terminarVenta':include_once 'modulos/GestionDeVentas/terminarVenta.php';break;
             case'modalPDF':include_once 'modulos/GestionDeVentas/modalPDF.php';break;
             //Gestion de ventas
@@ -40,8 +39,15 @@
             case'changeLocal':include_once 'modulos/GestionDelLocal/guardarLocal.php';break;
             //Gestion de reportes
             case'reportes':include_once 'modulos/GestionDeReportes/reportes.php';break;
-            
-           
+             //Gestion de cola
+            case'cola':include_once 'modulos/GestionDeCola/view.php';break;
+            //Gestion de Categoria
+            case'newCategoria':include_once 'modulos/GestionDeProductos/newCategoria.php';break;
+            case'editarCategoria':include_once 'modulos/GestionDeProductos/editarCategoria.php';break;
+            // login
+            case'login':include_once 'modulos/Login/view.php';break;
+            case'logear':include_once 'modulos/Login/logear.php';break;
+            case'salir':include_once 'modulos/Login/salir.php';break;
        }
        
         }

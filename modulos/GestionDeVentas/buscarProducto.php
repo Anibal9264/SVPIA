@@ -1,44 +1,77 @@
 <?php
-
 $busqueda = $_GET["buscar"];
-
+session_start();
+$cat = $_SESSION["CoP"];
 include_once "../../base_de_datos.php";
-$sql = "SELECT *,SUM(pv.cantidad) AS sumaC "
+
+
+
+
+
+
+if($cat == "1"){
+   $sql = "SELECT *,SUM(pv.cantidad) AS sumaC "
         . "FROM productos left JOIN productos_vendidos as pv "
         . "on pv.producto = id "
         . "where productos.descripcion like UPPER('%$busqueda%')  "
         . "GROUP BY id "
+        . "ORDER BY sumaC DESC;"; 
+}else{
+    $sql = "SELECT *,SUM(pv.cantidad) AS sumaC "
+        . "FROM productos left JOIN productos_vendidos as pv "
+        . "on pv.producto = id "
+        . "where productos.descripcion like UPPER('%$busqueda%') "
+        . "and categoria = $cat "
+        . "GROUP BY id "
         . "ORDER BY sumaC DESC;";
+    
+$sentencia1 = $base_de_datos->prepare("SELECT * FROM categoria WHERE id = ?;");
+$sentencia1->execute([$cat]);
+$categoria = $sentencia1->fetch(PDO::FETCH_OBJ);
+echo "
+    <div class='alert alert-warning alert-dismissible mt-1 btn-mod alert-mod'>
+                Categoria Selecionada : $categoria->descripcion
+    </div>
+";
+
+
+    
+    
+    
+}
+
 $sentencia = $base_de_datos->query($sql);
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
-
+ 
 $i = 0;
 foreach ($productos as $producto) {
 
     if ($i == 0) {
-        echo "<br> <div class='card-group'>";
+        echo "<div class='row ml-1'>";
     }
 
-    echo "<div class='card bg-light border-secondary mb-3 mx-2' style='max-width: 20rem;'>
-              <div class='card-header mb-0'>
-                  <a href='agregarAlCarrito.php?codigo=$producto->id'>
-                   <img class='card-img-bottom' src='$producto->img'> </a>
-              </div>    
-              <div class='card-body'>
-                      <h5 class='card-title'>$producto->descripcion</h5>
-                      <p class='card-text'>₡ $producto->precioVenta</p>
+    echo "<div class='col col-mod'>
+             <a href='#' onclick='agregarAlCarrito($producto->id);'>
+                  <div class='card-flyer'>
+                            <div class='text-box'>
+                <div class='image-box'>
+                  <img src='$producto->img'> 
+                </div>    
+              <div class='text-container'>
+                      <p>$producto->descripcion</p>
+                      <p>₡ $producto->precioVenta</p>
                       
               </div>
-              <div class='card-footer'>
-                  <a href='index.php?p=agregarAlCarrito&codigo=$producto->id' class='btn btn-primary w-100'>Agregar</a>
               </div>
+              </div>
+              </a>
               </div>
          
-            <br>";
+            ";
 
     $i++;
-    if($i==3){
+    if($i==6){
     echo "</div>";
     $i = 0;
     }

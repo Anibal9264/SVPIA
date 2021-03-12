@@ -19,6 +19,10 @@ function reportePDF() {
 var jsPDF = window.jspdf.jsPDF;
     pageHeight= 280;
 var doc = new jsPDF();
+
+var imgData = response[0].logotipo;
+doc.addImage(imgData, 'JPEG',20,20, 42, 42);
+
 doc.setFont('', 'bold');
 doc.setFontSize(20);
 doc.text(100, 15,response[0].nombre, 'center');
@@ -26,63 +30,57 @@ doc.setFont('', 'normal');
 doc.setFontSize(12);
 doc.text(100, 22, '"'+response[0].subNombre+'"', 'center');
 doc.setFontSize(15);
-doc.text(100, 30, response[0].distrito, 'center');
-doc.setFontSize(15);
-doc.text(100, 36, response[0].canton+', '+response[0].provincia , 'center');
+doc.text(100, 28,response[0].propietario, 'center');
+doc.text(100, 34,"Cédula: "+response[0].cedula, 'center');
 doc.setFontSize(13);
-doc.text(100, 43, 'Telefono: '+response[0].telefono, 'center');
-doc.setFontSize(13);
-doc.text(100, 49, 'Correo: '+response[0].correo, 'center');
+doc.text(100, 40, response[0].direccionExacta, 'center');
+doc.text(100, 45, response[0].distrito, 'center');
+doc.text(100, 50, response[0].canton+', '+response[0].provincia , 'center');
+doc.text(100, 56, 'Telefono: '+response[0].telefono, 'center');
+doc.text(100,62, 'Correo: '+response[0].correo, 'center');
 
 doc.setFontSize(15);
-doc.text(20, 60, 'Desde: '+desde);
-doc.text(70, 60, 'Hasta: '+hasta);
+doc.text(20, 72, 'Desde: '+desde);
+doc.text(70, 72, 'Hasta: '+hasta);
 
 
 // reporte de ventas *******************************************************
 
 doc.setFontSize(18);
-doc.text(100,80, 'Reporte de ventas', 'center');
+doc.text(100,80, 'Reporte de Ventas', 'center');
 doc.setFontSize(13);
 doc.setFont('', 'bold');
-doc.text(22, 90, '#');
-doc.text(28, 90, 'FECHA');
-doc.text(55, 90, 'VENTAS');
-doc.text(82, 90, 'SUB TOTAL');
-doc.text(120, 90, 'IVA');
-doc.text(145, 90, 'TOTAL');
+doc.text(30, 90, 'FECHA');
+doc.text(80, 90, 'VENTAS');
+doc.text(130, 90, 'TOTAL');
 doc.setLineWidth(1);
 doc.setDrawColor(200, 200, 200);
 doc.line(22, 92, 170, 92);
 
 var y = -5;
 var itens = 0;
-var subtotal = 0.0;
-var ivaT = 0;
 var Total = 0;
+
 var ventas = response[1];
-for (var i = 0; i < ventas.length; i++) {
+
+var efectivo = ventas[ventas.length-1][0];
+var tarjeta = ventas[ventas.length-1][1];
+var Sinpe = ventas[ventas.length-1][2];
+
+for (var i = 0; i < ventas.length-1; i++) {
 y += 5;
 doc.setFontSize(13);
 doc.setFont('', 'normal');
-var num = (i+1).toString();
 var vFecha = ventas[i]["fecha"];
 itens += ventas[i]["cantidad"];
 var cantidad = ventas[i]["cantidad"].toString();
-var sinImpuestos = ventas[i]["totalsinImpuestos"].toString();
-var tem = parseFloat(ventas[i]["totalsinImpuestos"]);
-subtotal += tem;
-var tem2 = parseFloat(ventas[i]["totalimpuestos"]);
-ivaT += tem2;
 var tem3 = parseFloat(ventas[i]["total"]);
 Total += tem3;
 
-doc.text(22, 98+y,num);//numero
-doc.text(28, 98+y,vFecha);// fecha
-doc.text(64, 98+y,cantidad);// cantidad
-doc.text(82, 98+y,'¢'+sinImpuestos);// totalsinImpuestos
-doc.text(120, 98+y,'¢'+tem2.toString());// iva
-doc.text(145, 98+y,'¢'+tem3.toString());// total
+
+doc.text(30, 98+y,vFecha);// fecha
+doc.text(80, 98+y,cantidad);// cantidad
+doc.text(130, 98+y,'¢'+tem3.toFixed(2).toString());// total
 
 if (190+y >= pageHeight)
 {
@@ -93,27 +91,43 @@ if (190+y >= pageHeight)
 
 
 doc.line(22, 101+y, 170, 101+y);
-doc.text(22, 107+y,'TOTAL');
-doc.text(64, 107+y,itens.toString());// SUMA ITEMS
+doc.text(30, 107+y,'Total Ventas');
+doc.text(80, 107+y,itens.toString());// SUMA ITEMS
 
 doc.setFontSize(15);
 doc.setFont('', 'bold');
-doc.text(82, 107+y,'¢'+subtotal.toString());
-doc.text(120, 107+y,'¢'+ivaT.toString()); 
-doc.text(145, 107+y,'¢'+Total.toString()); //total completo
 doc.setLineWidth(0.7);
+
+doc.text(80, 115+y,'Total Efectivo');
+doc.text(130, 115+y,'¢'+efectivo);//
+
+doc.text(80, 122+y,'Total Tarjeta');
+doc.text(130, 122+y,'¢'+tarjeta);// 
+
+doc.text(80, 129+y,'Total SINPE');
+doc.text(130, 129+y,'¢'+Sinpe);// 
+
+doc.text(80, 136+y,'TOTAL');
+doc.text(130, 136+y,'¢'+Total.toFixed(2).toString());//  TOTAL completo
+
+
+
 
 doc.setDrawColor(0,0,0);
 doc.line(22, 109+y, 170, 109+y);
+
+
+
+
+y+=30;
 
 // reporte de ingresos *******************************************************
 
 doc.setFontSize(18);
 doc.setFont('', 'normal');
-doc.text(100,117+y, 'Reporte de ingresos', 'center');
+doc.text(100,117+y, 'Reporte de Gastos', 'center');
 doc.setFontSize(13);
 doc.setFont('', 'bold');
-doc.text(22, 127+y, '#');
 doc.text(28, 127+y, 'FECHA');
 doc.text(55, 127+y, 'PROVEEDOR');
 doc.text(97, 127+y, 'PRODUCTO');
@@ -129,7 +143,6 @@ for (var i = 0; i < ingresos.length; i++) {
 y2 += 5;
 doc.setFontSize(13);
 doc.setFont('', 'normal');
-var num = (i+1).toString();
 var iFecha = ingresos[i]["fecha"];
 var proveedor = ingresos[i]["proveedor"];
 var producto = ingresos[i]["producto"];
@@ -137,7 +150,6 @@ var monto = ingresos[i]["monto"];
 
 montoTotal += parseFloat(monto);
         
-doc.text(22, 136+y+y2,num);//numero
 doc.text(28, 136+y+y2,iFecha);// fecha
 
 
@@ -195,39 +207,31 @@ if (190+y+y2 >= pageHeight)
 
 
 doc.line(22, 139+y+y2, 170, 139+y+y2);
-doc.text(22, 144+y+y2,'TOTAL');
+doc.text(110, 150+y+y2,'TOTAL');
 
 doc.setFontSize(15);
 doc.setFont('', 'bold');
-doc.text(137, 144+y+y2,'¢'+montoTotal.toString()); //total completo
+doc.text(137, 150+y+y2,'¢'+montoTotal.toFixed(2).toString()); //total completo
 doc.setLineWidth(0.7);
+doc.setDrawColor(0, 0, 0);
+doc.line(110, 152+y+y2, 170, 152+y+y2);
 
 
 doc.setLineWidth(1);
-doc.setDrawColor(0, 0, 0);
-doc.line(22, 146+y+y2, 170, 146+y+y2);
+doc.setDrawColor(200, 200, 200);
+doc.line(22, 160+y+y2, 170, 160+y+y2);
 
-doc.text(22, 155+y+y2,'VENTAS ANTES DE IMPUESTOS');
-doc.text(137, 155+y+y2,'¢'+Total.toString()); 
-
-doc.text(22, 161+y+y2,'IMPUESTOS');
-doc.text(137, 161+y+y2,'¢ -'+ivaT.toString()); 
-
-doc.text(22, 167+y+y2,'VENTAS NETAS');
-doc.text(137, 167+y+y2,'¢'+subtotal.toString()); //total completo
+doc.text(22, 167+y+y2,'VENTAS');
+doc.text(137, 167+y+y2,'¢'+Total.toFixed(2).toString()); //total completo
 doc.setLineWidth(0.7);
 
 doc.text(22, 173+y+y2,'GASTOS');
-doc.text(137, 173+y+y2,'¢'+montoTotal.toString()); //total completo
+doc.text(137, 173+y+y2,'¢'+montoTotal.toFixed(2).toString()); //total completo
 doc.setLineWidth(0.7);
 
 doc.text(22, 179+y+y2,'GANANCIAS');
-doc.text(137, 179+y+y2,'¢'+(subtotal-montoTotal).toString()); //total completo
-doc.setLineWidth(0.7);
+doc.text(137, 179+y+y2,'¢'+(Total-montoTotal).toFixed(2).toString()); //total completo
 
-
-doc.setDrawColor(0,0,0);
-doc.line(22, 185+y+y2, 170, 185+y+y2);
 
 
 doc.setFontSize(13);
@@ -253,3 +257,13 @@ $('#info').attr('src', doc.output("datauristring"));
 
 };
 
+
+
+function cargarFechas(){
+    $( "#desde" ).datepicker({
+      dateFormat: 'yy-mm-dd'
+});
+    $( "#hasta" ).datepicker({
+      dateFormat: 'yy-mm-dd'
+});
+}

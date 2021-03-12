@@ -1,4 +1,8 @@
 <?php
+if (!$_SESSION['Logeado']){
+header ("Location: index.php?p=login");
+exit;
+}
 $ahora = date("Y-m-d");
 ?>
 <script src="modulos/GestionDeReportes/reportePDF.js" type="text/javascript"></script>
@@ -26,11 +30,11 @@ $ahora = date("Y-m-d");
         <div class="row justify-content-center">
             <div class="form-group ml-5">
                 <label for="desde">Desde</label>
-                <input type="date" value="<?php echo $ahora ?>" class="form-control" id="desde" onchange="reportePDF();">
+                <input type="txt" value="<?php echo $ahora ?>" class="form-control" id="desde" onchange="reportePDF();">
             </div>
             <div class="form-group ml-5">
                 <label for="hasta">Hasta</label>
-                <input type="date" value="<?php echo $ahora ?>" class="form-control" id="hasta" onchange="reportePDF();">
+                <input type="txt" value="<?php echo $ahora ?>" class="form-control" id="hasta" onchange="reportePDF();">
             </div>
         </div>
     </div>
@@ -45,10 +49,7 @@ $ahora = date("Y-m-d");
 
 <script>
     $(document).ready(function () {
+        cargarFechas();
         reportePDF();
     });
 </script>
-
-
-
-<?php include_once "pie.php"; ?>

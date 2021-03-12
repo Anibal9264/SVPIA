@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!$_SESSION['Logeado']){
+header ("Location: index.php?p=login");
+exit;
+}
 $numero = "";
 $fecha = "";
 $numero = $_GET["numero"];
@@ -20,7 +25,6 @@ foreach($ventas as $venta){
 						<table class='table table-bordered'>
 							<thead>
 								<tr>
-									<th>Código</th>
 									<th>Descripción</th>
 									<th>Cantidad</th>
 								</tr>
@@ -31,8 +35,7 @@ $sentencia = $base_de_datos->query("SELECT * FROM productos where id in(select p
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);    
  foreach($productos as $producto){					
                         echo "  <tr>
-				    <td>$producto->id</td>
-                                    <td> $producto->descripcion</td>";
+				   <td> $producto->descripcion</td>";
     $sentencia = $base_de_datos->prepare("select cantidad from productos_vendidos where producto = $producto->id and factura = $venta->id");
 $sentencia->execute();
 $cantidad = $sentencia->fetch(PDO::FETCH_OBJ);

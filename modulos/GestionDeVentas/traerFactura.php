@@ -15,6 +15,12 @@ $sentencia->execute();
 $local = $sentencia->fetch(PDO::FETCH_OBJ);
 array_push($arrayF,$local);
 
+$sentencia = $base_de_datos->prepare("SELECT * FROM tipoPago where id = $factura->tipoPago");
+$sentencia->execute();
+$tipoPago = $sentencia->fetch(PDO::FETCH_OBJ);
+
+array_push($arrayF,$tipoPago);
+
 $sentencia = $base_de_datos->query("SELECT * from productos WHERE id in (SELECT producto FROM productos_vendidos WHERE factura = $busqueda)");
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 

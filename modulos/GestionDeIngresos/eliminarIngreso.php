@@ -5,7 +5,7 @@ include_once "base_de_datos.php";
 $sentencia = $base_de_datos->prepare("DELETE FROM ingresos WHERE id = ?;");
 $resultado = $sentencia->execute([$id]);
 if($resultado === TRUE){
-	header("Location: ./index.php?p=ingresos");
+	header("Location: ./index.php?p=ingresos&correcto=del");
 	exit;
 }
 else echo "Algo salió mal";
