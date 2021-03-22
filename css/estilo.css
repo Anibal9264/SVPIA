@@ -219,3 +219,14 @@ select.form-control-mod:not([size]):not([multiple]) {
     margin-bottom: -24px;
     position: fixed;
 }
+
+footer {
+    position: fixed;
+    height: 10px;
+    bottom: 0;
+    width: 100%;
+}
+
+.fixCenter{
+     left: 12%;
+}

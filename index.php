@@ -54,4 +54,8 @@
         
         ;?>
     </body>
+    
+    <footer>
+        <?php include_once 'pie.php';?>
+    </footer>
 </html>

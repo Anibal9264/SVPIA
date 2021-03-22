@@ -108,7 +108,6 @@ $local = $sentencia->fetch(PDO::FETCH_OBJ);
             </div>
             <div class="form-group mt-3">
 		<input class="btn btn-primary" type="submit" value="Guardar Cambios">
-                <input class="btn btn-secondary" value="Modificar Facturas" onclick="modificarPDF();">
                 <a class="btn btn-danger" href="./index.php">Cancelar</a>
             </div>  
                

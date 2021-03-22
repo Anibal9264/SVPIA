@@ -16,12 +16,6 @@
     objXMLHttpRequest.send();
 
   };
-  
-function verpdf(id){
-    $('#bModal').html("");
-    $('#bModal').html("<embed src='pdfs/"+id+".pdf' id='info' name='info' frameborder='0' width='100%' height='450px'>");
-   
-};
 
 function borra(){
     $("#fechaB").val("");
@@ -57,3 +51,20 @@ function cargarFechas(){
       dateFormat: 'yy-mm-dd'
 });
 }
+
+
+function eliminarVenta(id) {
+ var objXMLHttpRequest = new XMLHttpRequest();
+    objXMLHttpRequest.onreadystatechange = function () {
+        if (objXMLHttpRequest.readyState === 4) {
+            if (objXMLHttpRequest.status === 200) {
+                location.reload();
+           } else {
+                alert('Error Code: ' + objXMLHttpRequest.status);
+            }
+        }
+    };
+    objXMLHttpRequest.open('GET', 'modulos/GestionDeReportes/eliminarVenta.php?id='+id);
+    objXMLHttpRequest.send();
+
+}; 

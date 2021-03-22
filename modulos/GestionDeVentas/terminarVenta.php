@@ -34,4 +34,4 @@ for ($i = 1; $i < count($_SESSION["carritos"][$num]); $i++) {
 
 $base_de_datos->commit();
 array_splice($_SESSION["carritos"],$num, 1);
-header("Location: ./index.php?p=modalPDF&factura=$resultado->id");
+header("Location: ./index.php?factura=$resultado->id");

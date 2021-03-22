@@ -46,6 +46,7 @@ $cantidad = $sentencia->fetch(PDO::FETCH_OBJ);
 						</table>
 					</td>
 					<td>$venta->total</td>
-					<td><a class='btn btn-light' data-toggle='modal' data-target='#myModal' onclick='verpdf($venta->id);'><i class='fa fa-file-pdf'></i></a></td>
-				</tr>";
+					<td><a class='btn btn-light' data-toggle='modal' data-target='#myModal' onclick='crearPDF($venta->id);'><i class='fa fa-file-pdf'></i></a></td>
+				        <td><a class='btn btn-light' onclick='eliminarVenta($venta->id);'><i class='fa fa-trash'></i></a></td>
+</tr>";
 				 } 

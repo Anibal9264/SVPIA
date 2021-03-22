@@ -23,6 +23,7 @@ $tAnio = $sentencia->fetch(PDO::FETCH_OBJ);
 $ahora = date("Y-m-d");
 ?>
 <script src="modulos/GestionDeReportes/controller.js" type="text/javascript"></script>
+<script src="modulos/GestionDeReportes/CrearPDF.js" type="text/javascript"></script>
 <div class="container">
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -122,6 +123,7 @@ $ahora = date("Y-m-d");
                         <th>Productos vendidos</th>
                         <th>Total</th>
                         <th>Ver</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody id="tFacturas">

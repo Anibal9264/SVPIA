@@ -99,24 +99,14 @@ doc.text(100,170+y, 'GRACIAS POR SU COMPRA', 'center');
 doc.text(100,178+y, 'VUELVA PRONTO', 'center');
 
 $('#bModal').html("");
-$('#bModal').html("<embed src='"+doc.output("datauristring")+"' id='info' name='info' frameborder='0' width='100%' height='450px'>");
-   
-$('#myModal2').removeClass("fade");
-$('#myModal2').addClass("show");
-                
+$('#bModal').html("<embed src='"+doc.output("datauristring")+"' id='info' name='info' frameborder='0' width='100%' height='450px'>");           
                 
             } else {
                 alert('Error Code: ' + objXMLHttpRequest.status);
             }
         }
     };
-    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/traerFactura.php?buscar='+srt);
+    objXMLHttpRequest.open('GET', 'modulos/GestionDeReportes/traerFactura.php?buscar='+srt);
     objXMLHttpRequest.send();
 
 };
-
-
-function cerrarModal(){
-   $('#myModal2').removeClass("show");
-    window.location.assign("http://localhost/PVPIA/index.php")
-}
