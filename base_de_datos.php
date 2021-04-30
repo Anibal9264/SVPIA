@@ -1,11 +1,4 @@
 <?php
-/*
-	Pequeño, muy pequeño sistema de ventas en PHP con MySQL
-
-	@author parzibyte
-
-	No olvides visitar parzibyte.me/blog para más cosas como esta
-*/
 include_once 'configuracion.php';
 try{
 	$base_de_datos = new PDO('mysql:host=localhost;dbname=' . $nombre_base_de_datos, $usuario, $contraseña);
@@ -16,4 +9,3 @@ try{
 }catch(Exception $e){
 	echo "Ocurrió algo con la base de datos: " . $e->getMessage();
 }
-?>

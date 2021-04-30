@@ -80,7 +80,7 @@ Total += tem3;
 
 doc.text(30, 98+y,vFecha);// fecha
 doc.text(80, 98+y,cantidad);// cantidad
-doc.text(130, 98+y,'¢'+tem3.toFixed(2).toString());// total
+doc.text(130, 98+y,'¢'+separar(tem3.toString()));// total
 
 if (190+y >= pageHeight)
 {
@@ -99,16 +99,16 @@ doc.setFont('', 'bold');
 doc.setLineWidth(0.7);
 
 doc.text(80, 115+y,'Total Efectivo');
-doc.text(130, 115+y,'¢'+efectivo);//
+doc.text(130, 115+y,'¢'+separar(efectivo.toString()));//
 
 doc.text(80, 122+y,'Total Tarjeta');
-doc.text(130, 122+y,'¢'+tarjeta);// 
+doc.text(130, 122+y,'¢'+separar(tarjeta.toString()));// 
 
 doc.text(80, 129+y,'Total SINPE');
-doc.text(130, 129+y,'¢'+Sinpe);// 
+doc.text(130, 129+y,'¢'+separar(Sinpe.toString()));// 
 
 doc.text(80, 136+y,'TOTAL');
-doc.text(130, 136+y,'¢'+Total.toFixed(2).toString());//  TOTAL completo
+doc.text(130, 136+y,'¢'+separar(Total.toFixed(2).toString()));//  TOTAL completo
 
 
 
@@ -172,28 +172,21 @@ if(tam>19){
     doc.text(55, 136+y+y2,proveedor);// proveedor
 }
 
-
-
-var tam = producto.length;
-if(tam>19){
-    var sub = producto.substring(0,19);
-    var sobro = producto.substring(19);
-    while(sub.length>0){
-        doc.text(97, 136+y+y2,sub);// producto
-        y2 += 5;
-        if(sobro.length<=19){
-           doc.text(97, 136+y+y2,sobro);// producto
-           sub='';
-        }else{
-            sub = sobro.substring(0,19);
-            sobro = sobro.substring(19);
-        }
-    }
-}else{
-    doc.text(97, 136+y+y2,producto);// producto
+var Sp = producto.split(' ');
+var text = "";
+for (var t of Sp) {
+if ((text.length+t.length)>13){
+   doc.text(97, 136+y+y2,text);// producto
+   y2 += 5;
+   text = "";
 }
+text +=t+" ";
+}
+doc.text(97, 136+y+y2,text);
 
-doc.text(137, 136+y+y2,'¢'+monto);// monto
+
+
+doc.text(137, 136+y+y2,'¢'+separar(monto.toString()));// monto
 
 if (190+y+y2 >= pageHeight)
 {
@@ -211,7 +204,7 @@ doc.text(110, 150+y+y2,'TOTAL');
 
 doc.setFontSize(15);
 doc.setFont('', 'bold');
-doc.text(137, 150+y+y2,'¢'+montoTotal.toFixed(2).toString()); //total completo
+doc.text(137, 150+y+y2,'¢'+separar(montoTotal.toFixed(2).toString())); //total completo
 doc.setLineWidth(0.7);
 doc.setDrawColor(0, 0, 0);
 doc.line(110, 152+y+y2, 170, 152+y+y2);
@@ -222,15 +215,15 @@ doc.setDrawColor(200, 200, 200);
 doc.line(22, 160+y+y2, 170, 160+y+y2);
 
 doc.text(22, 167+y+y2,'VENTAS');
-doc.text(137, 167+y+y2,'¢'+Total.toFixed(2).toString()); //total completo
+doc.text(137, 167+y+y2,'¢'+separar(Total.toFixed(2).toString())); //total completo
 doc.setLineWidth(0.7);
 
 doc.text(22, 173+y+y2,'GASTOS');
-doc.text(137, 173+y+y2,'¢'+montoTotal.toFixed(2).toString()); //total completo
+doc.text(137, 173+y+y2,'¢'+separar(montoTotal.toFixed(2).toString())); //total completo
 doc.setLineWidth(0.7);
 
 doc.text(22, 179+y+y2,'GANANCIAS');
-doc.text(137, 179+y+y2,'¢'+(Total-montoTotal).toFixed(2).toString()); //total completo
+doc.text(137, 179+y+y2,'¢'+separar((Total-montoTotal).toFixed(2).toString())); //total completo
 
 
 
@@ -266,4 +259,9 @@ function cargarFechas(){
     $( "#hasta" ).datepicker({
       dateFormat: 'yy-mm-dd'
 });
+}
+
+function separar(valor){
+ if(valor.length < 3)return valor;
+ return  valor.split("").reverse().join().replace(/,/g,"").match(/.{1,3}/g).join().split("").reverse().join("").replace(/,/g," ");
 }

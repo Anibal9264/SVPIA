@@ -24,17 +24,18 @@ $sentencia = $base_de_datos->query("SELECT date(fecha) as fecha,"
         . "count(id) as cantidad,"
         . "sum(total) as total, "
         . "tipoPago "
-        . "FROM SVPIA.ventas where date(fecha) between "
+        . "FROM ventas where date(fecha) between "
         . "date('$desde') and date('$hasta') "
         . "group by date(fecha);");
 for($i=1; $i<=3 ;$i++){
     $sent = $base_de_datos->query("SELECT sum(total) as total "
-        . "FROM SVPIA.ventas where date(fecha) between "
+        . "FROM ventas where date(fecha) between "
         . "date('$desde') and date('$hasta') "
         . "and tipoPago = $i");
     $total = $sent->fetchAll(PDO::FETCH_OBJ);
     $tt = $total[0]->total;
-    array_push($aTP,$tt);
+    if (!$tt) { $tt = 0;}
+        array_push($aTP,$tt);
 }
 
 
@@ -42,19 +43,48 @@ for($i=1; $i<=3 ;$i++){
     $sentencia = $base_de_datos->query("SELECT CONCAT('Semana', ' ', week(fecha)) as fecha,"
         . "count(id) as cantidad,"
         . "sum(total) as total "
-        . "FROM SVPIA.ventas where week(fecha) between "
+        . "FROM ventas where week(fecha) between "
         . "week('$desde') and week('$hasta') "
         . "and year(fecha) between year('$desde') and year('$hasta') "
         . "group by week(fecha);");
+    
+    for($i=1; $i<=3 ;$i++){
+    $sent = $base_de_datos->query("SELECT sum(total) as total "
+        . "FROM ventas where week(fecha) between "
+        . "week('$desde') and week('$hasta') "
+        . "and year(fecha) between year('$desde') and year('$hasta') "
+        . "and tipoPago = $i");
+    $total = $sent->fetchAll(PDO::FETCH_OBJ);
+    $tt = $total[0]->total;
+    if (!$tt) { $tt = 0;}
+        array_push($aTP,$tt);
+}
+    
+    
     
 }elseif($tipo == "3"){
      $sentencia = $base_de_datos->query("SELECT CONCAT('Mes', ' ', month(fecha)) as fecha,"
         . "count(id) as cantidad,"
         . "sum(total) as total "
-        . "FROM SVPIA.ventas where month(fecha) between "
+        . "FROM ventas where month(fecha) between "
         . "month('$desde') and month('$hasta') "
         . "and year(fecha) between year('$desde') and year('$hasta') "
         . "group by month(fecha);");
+     
+        for($i=1; $i<=3 ;$i++){
+    $sent = $base_de_datos->query("SELECT sum(total) as total "
+        . "FROM ventas where month(fecha) between "
+        . "month('$desde') and month('$hasta') "
+        . "and year(fecha) between year('$desde') and year('$hasta') "
+        . "and tipoPago = $i");
+    $total = $sent->fetchAll(PDO::FETCH_OBJ);
+    $tt = $total[0]->total;
+    if (!$tt) { $tt = 0;}
+        array_push($aTP,$tt);
+}
+     
+     
+     
 }
 
 $ventas = $sentencia->fetchAll(PDO::FETCH_OBJ);

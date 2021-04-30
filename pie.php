@@ -1,0 +1,1 @@
+<div class="footer navbar-fixed-bottom text-right"><a class="text-gray-500" href="mailto:AnibalChavesBadilla@hotmail.com"> Ing. Anibal Chaves Badilla </a></div>

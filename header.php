@@ -16,11 +16,16 @@ $NombreLocal = $sentencia->fetch(PDO::FETCH_OBJ)->nombre;
 }
 </script>
 <div class="topnav bg-primary" id="myTopnav">
-    <a href="./index.php" class="active bg-warning"><?php echo $NombreLocal;?></a>
+    <a href="./index.php" class="active bg-warning"><?php echo substr($NombreLocal,0,12);?></a>
   <a class="nav-link" href="./index.php">Orden</a>
    <a class="nav-link" href="./index.php?p=cola">Cola</a>
    <?php 
    session_start();
+   if(!isset($_SESSION['Logeado'])){
+      $_SESSION['Logeado'] = false;
+   } 
+   
+   
    if ($_SESSION['Logeado']){
    ?>
  <a class="nav-link" href="./index.php?p=ventas">Ventas</a>
