@@ -63,9 +63,21 @@ var descripcion = response[i]["producto"]["descripcion"];
 itens += response[i]["cantidad"]["cantidad"];
 var cantidad = response[i]["cantidad"]["cantidad"].toString();
 var totalP = (parseFloat(response[i]["producto"]["precioVenta"]) * parseFloat(response[i]["cantidad"]["cantidad"])) ;
-doc.text(28, 140+y,descripcion);// producto
+
+var Sp = descripcion.split(' ');
+var text = "";
+for (var t of Sp) {
+if ((text.length+t.length)>24){
+   doc.text(28, 140+y,text);// producto
+   y += 5;
+   text = "";
+}
+text +=t+" ";
+}
+doc.text(28, 140+y,text);
+
 doc.text(95, 140+y,cantidad);// cantidad
-doc.text(145, 140+y,totalP.toString());// totalP
+doc.text(145, 140+y,separar(totalP.toString()));// totalP
 
 if (190+y >= pageHeight)
 {
@@ -83,7 +95,7 @@ doc.setFont('', 'bold');
 doc.text(28, 150+y,'TOTAL');
 doc.text(95, 150+y,itens.toString());// SUMA ITEMS
 var us = parseFloat(response[0].total) / parseFloat(response[1].tipoDeCambio);
-doc.text(145, 150+y,response[0].total); //total completo
+doc.text(145, 150+y,separar(response[0].total)); //total completo
 doc.setLineWidth(0.7);
 
 doc.text(139, 157+y,'$');
@@ -110,3 +122,9 @@ $('#bModal').html("<embed src='"+doc.output("datauristring")+"' id='info' name='
     objXMLHttpRequest.send();
 
 };
+
+
+function separar(valor){
+ if(valor.length < 3)return valor;
+ return  valor.split("").reverse().join().replace(/,/g,"").match(/.{1,3}/g).join().split("").reverse().join("").replace(/,/g," ");
+}

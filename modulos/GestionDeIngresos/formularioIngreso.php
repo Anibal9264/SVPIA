@@ -4,6 +4,7 @@ if (!$_SESSION['Logeado']){
 header ("Location: index.php?p=login");
 exit;
 }
+date_default_timezone_set('America/Costa_Rica');
 $ahora = date("Y-m-d");
 
 echo "

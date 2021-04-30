@@ -1,5 +1,4 @@
 <?php
-session_start();
 $total = $_POST["total"];
 $num = $_POST["num"];
 $cliente = $_POST["cliente"];
