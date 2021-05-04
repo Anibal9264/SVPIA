@@ -113,7 +113,7 @@ function cancelarVenta(num){
     objXMLHttpRequest.send(); 
 }
 
-function separar(num,num2){
+function separarC(num,num2){
    var objXMLHttpRequest = new XMLHttpRequest();
     objXMLHttpRequest.onreadystatechange = function () {
         if (objXMLHttpRequest.readyState === 4) {
@@ -136,9 +136,9 @@ function pasarDeCarrito(i,id,num,num2,d){
         if (objXMLHttpRequest.readyState === 4) {
             if (objXMLHttpRequest.status === 200) {
                 if(d == "1"){
-                    separar(num2,objXMLHttpRequest.responseText);
+                    separarC(num2,objXMLHttpRequest.responseText);
                 }else{
-                    separar(objXMLHttpRequest.responseText,num2);
+                    separarC(objXMLHttpRequest.responseText,num2);
                 }
                 
            } else {
@@ -152,7 +152,7 @@ function pasarDeCarrito(i,id,num,num2,d){
 
 function delCar(num){
    cancelarVenta(num);
-   separar(0,1);
+   separarC(0,1);
 }
 
 function moverCola(num){
@@ -172,7 +172,9 @@ function moverCola(num){
 }
 function guardarDatosCarrito(num){
     var cliente = $("#cliente").val();
+    var idcliente = $("#idcliente").val();
     var tClientes = $("#tClientes").val();
+    var tPago = $("#tipoPago").val();
     
     var objXMLHttpRequest = new XMLHttpRequest();
     objXMLHttpRequest.onreadystatechange = function () {
@@ -185,7 +187,7 @@ function guardarDatosCarrito(num){
             }
         }
     };
-    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/GuardarDatos.php?&num='+num+'&C='+cliente+'&T='+tClientes);
+    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/GuardarDatos.php?&num='+num+'&idC='+idcliente+'&C='+cliente+'&T='+tClientes+'&TP='+tPago);
     objXMLHttpRequest.send(); 
 }
 
@@ -227,4 +229,62 @@ function establecerCategoria(id){
     };
     objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/establecerCategoria.php?id='+id);
     objXMLHttpRequest.send();
+}
+
+
+function getClientes(){
+  var objXMLHttpRequest = new XMLHttpRequest();
+    objXMLHttpRequest.onreadystatechange = function () {
+        if (objXMLHttpRequest.readyState === 4) {
+            if (objXMLHttpRequest.status === 200) {
+                  var options = JSON.parse(objXMLHttpRequest.responseText);
+  Swal.fire({
+  title: 'Clientes',
+  input: 'select',
+  inputOptions: options,
+  showCancelButton: true,
+  confirmButtonText: 'OK',
+  html: "<button class='swal2-confirm swal2-styled' onclick='agregarNew()'>Agregar</button>",
+  showLoaderOnConfirm: true,
+  inputValidator: (value) => {
+    $("#idcliente").val(value);
+    $("#cliente").val(options[value]);
+  }
+  
+  
+}) 
+            } else {
+                alert('Error Code: ' + objXMLHttpRequest.status);
+            }
+        }
+    };
+    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/getClientes.php');
+    objXMLHttpRequest.send();  
+    
+}
+
+function agregarNew(){
+     Swal.fire({
+  title: 'Nombre',
+  input: 'text',
+  showCancelButton: true,
+  confirmButtonText: 'Agregar',
+  showLoaderOnConfirm: true,
+  inputValidator: (value) => {
+    var objXMLHttpRequest = new XMLHttpRequest();
+    objXMLHttpRequest.onreadystatechange = function () {
+        if (objXMLHttpRequest.readyState === 4) {
+            if (objXMLHttpRequest.status === 200) {
+                getClientes();
+            } else {
+                alert('Error Code: ' + objXMLHttpRequest.status);
+            }
+        }
+    };
+    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/crearCliente.php?nombre='+value);
+    objXMLHttpRequest.send();
+  }
+  
+  
+}) 
 }

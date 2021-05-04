@@ -148,6 +148,46 @@ CREATE TABLE IF NOT EXISTS `ventas` (
   KEY `fk_ventas_tipoPago` (`tipoPago`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `debe`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+CREATE TABLE IF NOT EXISTS `cliente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+ALTER TABLE `svpia2`.`cliente` ADD UNIQUE `nombreUnico` (`nombre`(255));
+
+DROP TABLE IF EXISTS `debe`;
+CREATE TABLE IF NOT EXISTS `debe` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha` datetime NOT NULL,
+  `total` decimal(10,2) NOT NULL,
+  `cliente` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `activo`  tinyint DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Estructura de tabla para la tabla `productos_debe`
+--
+
+DROP TABLE IF EXISTS `productos_debe`;
+CREATE TABLE IF NOT EXISTS `productos_debe` (
+  `producto` int(11) NOT NULL,
+  `debe` int(11) NOT NULL,
+  `cantidad` int(11) DEFAULT NULL,
+  PRIMARY KEY (`producto`,`debe`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+ALTER TABLE `productos_debe` ADD CONSTRAINT `fk_productos_has_debe_debe1` FOREIGN KEY (`debe`) REFERENCES `debe`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION; ALTER TABLE `productos_debe` ADD CONSTRAINT `fk_productos_has_debe_productos` FOREIGN KEY (`producto`) REFERENCES `productos`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 --
 -- Restricciones para tablas volcadas
 --

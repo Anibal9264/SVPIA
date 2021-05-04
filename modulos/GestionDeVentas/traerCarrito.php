@@ -9,7 +9,9 @@ if (!isset($_SESSION["carritos"])) {
  $array = array(
     "granT" => 0,
     "cliente" => "",
+    "idcliente" => "",
     "tClientes" => 1,
+    "tPago" => 1,
     "numDiario" => 0,
     "horaP" => "",
     );
@@ -28,19 +30,7 @@ if ($hacia == (int) $desde) {
     $desde = 0;
 }
 
-include_once "../../base_de_datos.php";
-
-$sentencia = $base_de_datos->query("SELECT * FROM tipoPago;");
-$tiposP = $sentencia->fetchAll(PDO::FETCH_OBJ);
-
-$sentencia = $base_de_datos->query("SELECT tipoDeCambio FROM local;");
-$tipoDC = $sentencia->fetchAll(PDO::FETCH_OBJ);
-
-
 $car = $_SESSION["carritos"][$desde];
-$granTotal = $car[0]["granT"];
-$cliente = $car[0]["cliente"];
-$tClientes = $car[0]["tClientes"];
 echo "<div class='row'>
     <div class='col-5 card ml-5 mr-5'>
  <div class='btn-group btn-group-toggle' data-toggle='buttons'>";
@@ -52,7 +42,7 @@ for ($i = 0; $i < count($_SESSION["carritos"]); $i++) {
             echo " active";
         }
         echo "'>
-      <input type='radio' name='car' value='$i' autocomplete='off' onchange='separar($i,$hacia)'";
+      <input type='radio' name='car' value='$i' autocomplete='off' onchange='separarC($i,$hacia)'";
         if ($desde == $i) {
             echo "checked";
         }
@@ -64,7 +54,7 @@ echo "
 </div>
 
 <ul class='list-group'>
-        <div class='addScroll5'>";
+        <div class='addScroll6'>";
 for ($i = 1; $i < count($car); $i++) {
         $producto = $car[$i]["producto"];
         $precioVenta = $producto->precioVenta;
@@ -88,47 +78,12 @@ for ($i = 1; $i < count($car); $i++) {
            <input id='detalle$i' type='hidden' value='$detalle'>";
     }
 
-$tipoC = (float)$tipoDC[0]->tipoDeCambio;
-$us = $granTotal/$tipoC;
-$us = bcdiv($us,'1',2);
-
 echo " </div>                
-    </ul>       
-     <h3>Total: ¢$granTotal | $$us</h3>
-    <form action='./index.php?p=terminarVenta' method='POST'>
-      <div class='form-row mt-1'>
-                         <span class='input-group-text text-dark' >Tipo de pago</span>
-                          <select class='form-control col form-control-mod btn-mod' name='tipoPago' id='tipoPago'>";
-     foreach ($tiposP as $tipo){
-       echo " <option value='$tipo->id' ";
-       if ($tipo->id == 1) { echo " selected ";}
-       echo ">$tipo->descripcion</option>";
-     }
-    echo "</select>
-                    </div>
-                    <div class='form-row mt-1'>
-                      <span class='input-group-text' >Cliente</span>
-                     <input class='form-control col' id='cliente' name='cliente' type='text' placeholder='Cliente..' value='$cliente'>
-                    </div>
-                    <div class='form-row mt-1'>
-                         <span class='input-group-text text-dark' >Cantidad de personas</span>
-                         <input class='form-control col' id='tClientes' name='tClientes' type='number' min='1' value='$tClientes'>
-                    </div>
-                    
-                    <div class='row justify-content-center mt-2'>
-			<button type='submit' class='btn btn-mod btn-success' >Pagar</button>
-                        <button type='button' class='btn btn-mod btn-secondary ml-1' >Enviar a Cola</button>
-                        <a href='#' onclick='delCar($desde)' class='btn btn-mod btn-danger ml-1'>Borrar</a>
-		    </div>
-                    <input class='form-control hide' id='num' name='num' type='text'value='$desde'> 
-                    <input class='form-control hide' id='total' name='total' type='text'value='$granTotal'> 
-                </form> </div>";
+    </ul> </div>";
 
 // columna 2
 $car2 = $_SESSION["carritos"][$hacia];
-$granTotal2 = $car2[0]["granT"];
-$cliente2= $car2[0]["cliente"];
-$tCliente2 = $car2[0]["tClientes"];
+
 echo "<div class='col-5 card ml-5'>
  <div class='btn-group btn-group-toggle' data-toggle='buttons'>";
 for ($i = 0; $i < count($_SESSION["carritos"]); $i++) {
@@ -139,7 +94,7 @@ for ($i = 0; $i < count($_SESSION["carritos"]); $i++) {
             echo " active";
         }
         echo "'>
-      <input type='radio' name='car' value='$i' autocomplete='off' onchange='separar($desde,$i)'";
+      <input type='radio' name='car' value='$i' autocomplete='off' onchange='separarC($desde,$i)'";
         if ($hacia == $i) {
             echo "checked";
         }
@@ -148,7 +103,7 @@ for ($i = 0; $i < count($_SESSION["carritos"]); $i++) {
 }
 
 echo "<label class='btn btn-mod btn-secondary'>
-       <input type='radio' name='car' onchange='separar($desde,-1)' autocomplete='off'> +
+       <input type='radio' name='car' onchange='separarC($desde,-1)' autocomplete='off'> +
        </label>
 </div>
 
@@ -178,40 +133,5 @@ for ($i = 1; $i < count($car2); $i++) {
            <input id='detalle$i' type='hidden' value='$detalle'>";
     }
 
-$tipoC = (float)$tipoDC[0]->tipoDeCambio;
-$us = $granTotal2/$tipoC;
-$us = bcdiv($us,'1',2);
-echo " </div>                
-    </ul>       
-     <h3>Total: $granTotal2 | $$us</h3>
-    <form action='./index.php?p=terminarVenta' method='POST'>
-      <div class='form-row mt-1'>
-                         <span class='input-group-text text-dark' >Tipo de pago</span>
-                          <select class='form-control col form-control-mod btn-mod' name='tipoPago' id='tipoPago'>";
-     foreach ($tiposP as $tipo){
-       echo " <option value='$tipo->id' ";
-       if ($tipo->id == 1) { echo " selected ";}
-       echo ">$tipo->descripcion</option>";
-     }
-    echo "</select>
-                    </div>
-                    <div class='form-row mt-1'>
-                      <span class='input-group-text' >Cliente</span>
-                     <input class='form-control col' id='cliente' name='cliente' type='text' placeholder='Cliente..' value='$cliente2'>
-                    </div>
-                    <div class='form-row mt-1'>
-                         <span class='input-group-text text-dark' >Cantidad de personas</span>
-                         <input class='form-control col' id='tClientes' name='tClientes' type='number' min='1' value='$tCliente2'>
-                    </div>
-                    
-                    <div class='row justify-content-center mt-2'>
-			<button type='submit' class='btn btn-mod btn-success' >Pagar</button>
-                        <button type='button' class='btn btn-mod btn-secondary ml-1' >Enviar a Cola</button>
-                        <a href='#' onclick='delCar($hacia)' class='btn btn-mod btn-danger ml-1'>Borra</a>
-		    </div>
-                    <input class='form-control hide' id='num' name='num' type='text'value='$hacia'> 
-                    <input class='form-control hide' id='total' name='total' type='text'value='$granTotal2'> 
-                </form> 
-                </div>
-                </div>";
+echo " </div> </ul> </div> </div>";
 

@@ -9,7 +9,9 @@ if(!isset($_SESSION["carritos"])){
  $array = array(
     "granT" => 0,
     "cliente" => "",
+    "idcliente" => "",
     "tClientes" => 1,
+    "tPago" => 1,
     "numDiario" => 0,
     "horaP" => "",
      
@@ -39,10 +41,12 @@ $tipoDC = $sentencia->fetchAll(PDO::FETCH_OBJ);
 $car = $_SESSION["carritos"][$num];
 $granTotal = $car[0]["granT"];
 $cliente = $car[0]["cliente"];
+$idcliente = $car[0]["idcliente"];
 $tClientes = $car[0]["tClientes"];
+$tPago = $car[0]["tPago"];
 echo "<div class='row ml-1'>
  <button type='button' class='btn btn-xs btn-mod btn-success w-100 mb-1 mr-3' 
- onclick='separar($num,$num2);' data-toggle='modal' data-target='#myModal' >Separa Cuentas</button>
+ onclick='separarC($num,$num2);' data-toggle='modal' data-target='#myModal' >Separa Cuentas</button>
  </div>
  <div class='btn-group btn-group-toggle' data-toggle='buttons'>";
  for ($i = 0; $i < count($_SESSION["carritos"]); $i++) {
@@ -91,18 +95,20 @@ $us = bcdiv($us,'1',2);
     <h3>Total: ¢$granTotal | $$us</h3>
     <form action='./index.php?p=terminarVenta' method='POST'>
     <div class='form-row mt-1'>
+                      <span class='input-group-text text-dark' >Cliente</span>
+                     <input class='form-control col btn-mod' onchange='guardarDatosCarrito($num);' id='cliente' name='cliente' type='text' placeholder='Cliente..' readonly value='$cliente'>
+                         <input class='form-control hide' id='idcliente' name='idcliente' type='text' value='$idcliente'>
+     <button type='button' class='btn btn-mod btn-success ml-1' onclick='getClientes()' >+</button>
+     </div>
+     <div class='form-row mt-1'>
                          <span class='input-group-text text-dark' >Tipo de pago</span>
-                          <select class='form-control col form-control-mod btn-mod' name='tipoPago' id='tipoPago'>";
+                          <select class='form-control col form-control-mod btn-mod' name='tipoPago' id='tipoPago' onchange='guardarDatosCarrito($num);' >";
      foreach ($tiposP as $tipo){
        echo " <option value='$tipo->id' ";
-       if ($tipo->id == 1) { echo " selected ";}
+       if ($tipo->id == $tPago) { echo " selected ";}
        echo ">$tipo->descripcion</option>";
      }
     echo "</select>
-                    </div>
-                    <div class='form-row mt-1'>
-                      <span class='input-group-text text-dark' >Cliente</span>
-                     <input class='form-control col btn-mod' onchange='guardarDatosCarrito($num);' id='cliente' name='cliente' type='text' placeholder='Cliente..' value='$cliente'>
                     </div>
                     <div class='form-row mt-1'>
                          <span class='input-group-text text-dark' >Cantidad de personas</span>

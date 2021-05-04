@@ -74,7 +74,7 @@ if ((text.length+t.length)>24){
 }
 text +=t+" ";
 }
-doc.text(28, 140+y,descripcion);// producto
+doc.text(28, 140+y,text);// producto
 doc.text(95, 140+y,cantidad);// cantidad
 doc.text(145, 140+y,separar(totalP.toString()));// totalP
 

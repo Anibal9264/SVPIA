@@ -51,7 +51,7 @@ function realizarPago(num){
     objXMLHttpRequest.onreadystatechange = function () {
         if (objXMLHttpRequest.readyState === 4) {
             if (objXMLHttpRequest.status === 200) {
-               location.href = "http://localhost/PVPIA/index.php?car="+objXMLHttpRequest.responseText; 
+               location.href = "http://localhost/PVPIA2/index.php?car="+objXMLHttpRequest.responseText; 
             } else {
                 alert('Error Code: ' + objXMLHttpRequest.status);
             }

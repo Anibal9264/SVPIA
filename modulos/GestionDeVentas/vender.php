@@ -4,7 +4,17 @@ if (!isset($_REQUEST["car"])){
 }else{
     $numcar = $_REQUEST["car"];
 }
-
+if (isset($_REQUEST["estado"])) {
+    switch ($_REQUEST["estado"]) {
+        case "correcto":
+            echo "<script>Swal.fire({ icon: 'success', title: 'Guardado Correctamente!', text: 'Los datos se guardaron correctamente!'});</script>";
+            break;
+       
+        case "error":
+            echo "<script>Swal.fire({ icon: 'error', title: 'Error!', text: 'DEBE DE AGREGAR UN CLIENTE!'});</script>";
+            break;
+    }
+}
 
    
 if(!isset($_SESSION["CoP"])){

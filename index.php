@@ -41,6 +41,7 @@
             case'reportes':include_once 'modulos/GestionDeReportes/reportes.php';break;
              //Gestion de cola
             case'cola':include_once 'modulos/GestionDeCola/view.php';break;
+            case'deben':include_once 'modulos/GestionDebe/view.php';break;
             //Gestion de Categoria
             case'newCategoria':include_once 'modulos/GestionDeProductos/newCategoria.php';break;
             case'editarCategoria':include_once 'modulos/GestionDeProductos/editarCategoria.php';break;

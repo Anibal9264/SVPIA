@@ -75,7 +75,6 @@ if ((text.length+t.length)>24){
 text +=t+" ";
 }
 doc.text(28, 140+y,text);
-
 doc.text(95, 140+y,cantidad);// cantidad
 doc.text(145, 140+y,separar(totalP.toString()));// totalP
 
