@@ -29,7 +29,7 @@ $NombreLocal = $sentencia->fetch(PDO::FETCH_OBJ)->nombre;
    if ($_SESSION['Logeado']){
    ?>
  <a class="nav-link" href="./index.php?p=ventas">Ventas</a>
-  <a class="nav-link" href="./index.php?p=deben">Deben</a>
+ <a class="nav-link" href="./index.php?p=fiado">Fiados</a>
     <a class="nav-link" href="./index.php?p=reportes">Reportes</a>
   <a class="nav-link" href="./index.php?p=productos">Productos y Categorias</a>
    <a class="nav-link" href="./index.php?p=ingresos">Compras</a>

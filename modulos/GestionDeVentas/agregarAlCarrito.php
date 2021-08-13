@@ -5,8 +5,8 @@ if (!isset($_REQUEST["codigo"])) {
 $num = $_REQUEST["num"];
 $id = $_REQUEST["codigo"];
 include_once "../../base_de_datos.php";
-$sentencia = $base_de_datos->prepare("SELECT * FROM productos WHERE id = ?;");
-$sentencia->execute([$id]);
+$sentencia = $base_de_datos->prepare("SELECT * FROM productos WHERE id = '$id';");
+$sentencia->execute();
 $producto = $sentencia->fetch(PDO::FETCH_OBJ);
 
 session_start();

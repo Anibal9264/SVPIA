@@ -2,6 +2,7 @@
         <meta charset="UTF-8">
         <title>SVPIA</title>
 
+        
         <link rel="stylesheet" href="./css/fontawesome-all.min.css">
         <link href="plugins/bootstrap-4.0.0/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <script src="plugins/jquery/external/jquery/jquery.js" type="text/javascript"></script>
@@ -16,3 +17,4 @@
         <link href="plugins/icons-1.4.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css"/>
         <link href="plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
         <script src="plugins/sweetalert2/sweetalert2.all.min.js" type="text/javascript"></script>
+  

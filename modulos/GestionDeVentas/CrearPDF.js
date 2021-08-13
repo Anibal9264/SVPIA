@@ -129,7 +129,7 @@ $('#myModal2').addClass("show");
 
 function cerrarModal(){
    $('#myModal2').removeClass("show");
-    window.location.assign("http://localhost/PVPIA2/index.php")
+    window.location.assign("http://localhost/PVPIA3/index.php");
 }
 
 function separar(valor){

@@ -21,7 +21,7 @@ if (isset($_REQUEST["correcto"])) {
             break;
     }
 }
-$sentencia = $base_de_datos->query("SELECT * FROM productos;");
+$sentencia = $base_de_datos->query("SELECT * FROM productos where productos.activo = 1");
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 $sentencia2 = $base_de_datos->query("SELECT * FROM categoria where id != 1;"); //where id != 1
 $categorias = $sentencia2->fetchAll(PDO::FETCH_OBJ);
@@ -29,7 +29,7 @@ $categorias = $sentencia2->fetchAll(PDO::FETCH_OBJ);
 <script src="modulos/GestionDeProductos/controller.js" type="text/javascript"></script>
 <div class="col-xs-12 col-sm-12 col-md-12  col-lg-12 col-xl-12">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-6 col-xl-6">
+        <div class="col-xs-12 col-sm-12 col-md-12  col-lg-6 col-xl-6 card m-3">
             <h1 class="h3 mb-0 text-gray-800">Productos</h1>
             <br>
             <div>
@@ -72,7 +72,7 @@ $categorias = $sentencia2->fetchAll(PDO::FETCH_OBJ);
         </div>
         
         
-        <div class="col">
+        <div class="col card m-3">
             <h1 class="h3 mb-0 text-gray-800">Categorias</h1>
             <br>
             <div>

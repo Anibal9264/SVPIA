@@ -2,7 +2,7 @@
 
 //Ubicacion del dir 
 
-$rootDir = '/opt/lampp/htdocs/PVPIA2';
+$rootDir = '/xampp/htdocs/PVPIA3';
 
 // base de datos config
 

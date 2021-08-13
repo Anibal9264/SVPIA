@@ -26,7 +26,7 @@ if(!$tipo){
 }else{
 $id = $_GET["id"];
 include_once "../../base_de_datos.php";
-$sentencia = $base_de_datos->prepare("SELECT * FROM categoria where id = $id");
+$sentencia = $base_de_datos->prepare("SELECT * FROM categoria where id = '$id'");
 $sentencia->execute();
 $categoria = $sentencia->fetch(PDO::FETCH_OBJ);
    echo "<h4 class='modal-title'>Editar Categoria</h4>

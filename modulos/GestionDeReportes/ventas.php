@@ -9,6 +9,9 @@ exit;
 
 include_once "base_de_datos.php";
 
+$sentencia3 = $base_de_datos->prepare("DELETE from ventas WHERE id not in (SELECT factura FROM productos_vendidos);");
+$sentencia3->execute();
+
 $sentencia = $base_de_datos->prepare("SELECT sum(total) as tDia FROM ventas WHERE date(fecha) = date(NOW())GROUP BY  DAY(fecha)");
 $sentencia->execute();
 $tDia = $sentencia->fetch(PDO::FETCH_OBJ);
@@ -99,7 +102,9 @@ $ahora = date("Y-m-d");
             </div>
 </div>
      <div class="row mt-2">
-         <h1 class="h4 text-gray-800">BUSCAR COMPRA: </h1>
+         <div class="card w-100 mb-4">
+         <h1 class="h4 text-gray-800 ml-4">BUSCAR COMPRA: </h1>
+         <div class="form-check-inline">
                 <div class="form-group ml-4">
                     <label for="fechaB">Filtar por fecha</label>
                     <input type="text" class="form-control input-sm" id="fechaB" onchange="buscarFactura();">
@@ -110,11 +115,11 @@ $ahora = date("Y-m-d");
                     <label for="numeroB">Buscar por numero</label>
                     <input class="form-control input-sm" id="numeroB" type="number" min="1" onclick="borra();" onkeyup="buscarFactura();">
                 </div>
-                
+        </div>     
      </div>
-    
+    </div>
     <div class="row">
-        <div class="addScroll">
+        <div class="addScroll card">
             <table class="table table-bordered table-fixed">
                 <thead>
                     <tr>

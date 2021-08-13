@@ -34,8 +34,9 @@ $uploads_dir = $rootDir.'/ArchivosFacturas';
 }
 
 
-$sentencia = $base_de_datos->prepare("INSERT INTO ingresos(proveedor, producto, monto, fecha, facturaNumero, archivo) VALUES (?, ?, ?, ?, ?, ?);");
-$resultado = $sentencia->execute([$proveedor, $producto, $monto,$fecha,$factura,$archivo]);
+$sentencia = $base_de_datos->prepare("INSERT INTO ingresos(proveedor, producto, monto, fecha, facturaNumero, archivo) "
+        . "VALUES ('$proveedor', '$producto', '$monto', '$fecha', '$factura', '$archivo');");
+$resultado = $sentencia->execute();
 
 if($resultado === TRUE){
 	header("Location:./index.php?p=ingresos&correcto=new");

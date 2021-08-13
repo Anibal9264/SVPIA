@@ -7,12 +7,12 @@ if (!isset($_SESSION["colas"])) {
 ?>
 <script src="modulos/GestionDeCola/controller.js" type="text/javascript"></script>
 <div class="col-xs-12 col-sm-12 col-md-12  col-lg-12 col-xl-12">
-    <h1 class="h3 mb-0 text-gray-800">Ordenes en Cola</h1>
-    <br>
-    <br>
+    <div class="card mt-3 ">
+    <h1 class="h3 text-gray-800 ml-3">Ordenes en Cola</h1>
     <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    </div>  
     <br>
-    <div class="addScroll6">
+    <div class="addScroll6 card">
     <table class="table table-bordered" id="TCola">
         <thead>
             <tr>

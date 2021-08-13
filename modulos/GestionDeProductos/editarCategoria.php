@@ -32,8 +32,9 @@ $uploads_dir = $rootDir.'/imgCat';
         $img = "imgCat/$name";
     }
 
-$sentencia = $base_de_datos->prepare("UPDATE categoria SET descripcion = ?, img = ? WHERE id = ?;");
-$resultado = $sentencia->execute([$descripcion, $img, $id]);
+$sentencia = $base_de_datos->prepare("UPDATE categoria SET descripcion = '$descripcion', "
+        . "img = '$img' WHERE id = '$id';");
+$resultado = $sentencia->execute();
 
 if ($resultado === TRUE) {
     header("Location: ./index.php?p=productos&correcto=mod");

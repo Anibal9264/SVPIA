@@ -3,8 +3,8 @@ if (!isset($_GET["id"]))
     exit();
 $id = $_GET["id"];
 include_once "../../base_de_datos.php";
-$sentencia = $base_de_datos->prepare("SELECT * FROM ingresos WHERE id = ?;");
-$sentencia->execute([$id]);
+$sentencia = $base_de_datos->prepare("SELECT * FROM ingresos WHERE id = '$id';");
+$sentencia->execute();
 $ingreso = $sentencia->fetch(PDO::FETCH_OBJ);
 if ($ingreso === FALSE) {
     echo "¡No existe algún producto con ese ID!";

@@ -25,7 +25,7 @@ $sentencia = $base_de_datos->query("SELECT * FROM ingresos ORDER BY fecha DESC L
 $ingresos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 ?>
 <script src="modulos/GestionDeIngresos/controller.js" type="text/javascript"></script>
-	 <div class="col-xs-12 col-sm-12 col-md-12  col-lg-12 col-xl-12">
+	 <div class="col-xs-12 col-sm-12 col-md-12  col-lg-12 col-xl-12 card">
 		 <h1 class="h3 mb-0 text-gray-800">COMPRAS</h1>
     <br>
 		<div>
@@ -33,7 +33,7 @@ $ingresos = $sentencia->fetchAll(PDO::FETCH_OBJ);
             </div> 
 		
                  <br>
-                 <table class="table table-bordered" id="TIngresos">
+                 <table class="table table-bordered card" id="TIngresos">
 			<thead>
 				<tr>
 					<th>FACTURA Nº</th>

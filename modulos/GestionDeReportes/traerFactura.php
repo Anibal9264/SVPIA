@@ -8,6 +8,12 @@ include_once "../../base_de_datos.php";
 $sentencia = $base_de_datos->prepare("SELECT * FROM ventas where id = $busqueda");
 $sentencia->execute();
 $factura = $sentencia->fetch(PDO::FETCH_OBJ);
+if($factura->cliente){
+$sentencia = $base_de_datos->prepare("SELECT nombre FROM cliente where id = $factura->cliente");
+$sentencia->execute();
+$nombreC = $sentencia->fetch(PDO::FETCH_OBJ);
+$factura->cliente = $nombreC->nombre;
+}
 array_push($arrayF,$factura);
 
 $sentencia = $base_de_datos->prepare("SELECT * FROM local where id = 1");

@@ -34,6 +34,7 @@
             case'modalPDF':include_once 'modulos/GestionDeVentas/modalPDF.php';break;
             //Gestion de ventas
             case'ventas':include_once 'modulos/GestionDeReportes/ventas.php';break;
+            case'fiado':include_once 'modulos/GestionDeFiado/view.php';break;
             //Gestion del local
             case'local':include_once 'modulos/GestionDelLocal/formularioLocal.php';break;
             case'changeLocal':include_once 'modulos/GestionDelLocal/guardarLocal.php';break;
@@ -41,7 +42,6 @@
             case'reportes':include_once 'modulos/GestionDeReportes/reportes.php';break;
              //Gestion de cola
             case'cola':include_once 'modulos/GestionDeCola/view.php';break;
-            case'deben':include_once 'modulos/GestionDebe/view.php';break;
             //Gestion de Categoria
             case'newCategoria':include_once 'modulos/GestionDeProductos/newCategoria.php';break;
             case'editarCategoria':include_once 'modulos/GestionDeProductos/editarCategoria.php';break;

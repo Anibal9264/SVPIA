@@ -7,9 +7,9 @@ $ahora = date("Y-m-d");
 ?>
 <script src="modulos/GestionDeReportes/reportePDF.js" type="text/javascript"></script>
 <br>
-<div class="col-xs-12 col-sm-12 col-md-11  col-lg-4 col-xl-4">
+<div class="col-xs-12 col-sm-12 col-md-11  col-lg-3 col-xl-3 card ml-3">
     <div class="row justify-content-center">
-        <h1 class="h4 mb-0 text-gray-800 mb-4 mt-4">REPORTES DE VENTAS</h1>
+        <h1 class="h4 text-gray-800 ">REPORTES DE VENTAS</h1>
     </div>
 
     <div class="row justify-content-center">

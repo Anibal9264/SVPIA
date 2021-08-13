@@ -34,8 +34,9 @@ include_once 'configuracion.php';
         $img = "uploads/$name";
     }
 
-$sentencia = $base_de_datos->prepare("INSERT INTO productos(descripcion, precioVenta,categoria, img) VALUES (?, ?, ?, ?);");
-$resultado = $sentencia->execute([$descripcion, $precioVenta,$categoria,$img]);
+$sentencia = $base_de_datos->prepare("INSERT INTO productos(descripcion, precioVenta,categoria, img) "
+        . "VALUES ('$descripcion','$precioVenta','$categoria','$img');");
+$resultado = $sentencia->execute();
 
 if ($resultado === TRUE) {
     header("Location: ./index.php?p=productos&correcto=new");

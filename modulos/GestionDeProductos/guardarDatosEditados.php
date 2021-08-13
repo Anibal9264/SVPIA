@@ -33,8 +33,9 @@ $uploads_dir = $rootDir.'/uploads';
         $img = "uploads/$name";
     }
 
-$sentencia = $base_de_datos->prepare("UPDATE productos SET descripcion = ?, precioVenta = ?, categoria = ?, img = ? WHERE id = ?;");
-$resultado = $sentencia->execute([$descripcion,$precioVenta,$categoria,$img, $id]);
+$sentencia = $base_de_datos->prepare("UPDATE productos SET descripcion = '$descripcion', "
+        . "precioVenta = '$precioVenta', categoria = '$categoria', img = '$img' WHERE id = '$id';");
+$resultado = $sentencia->execute();
 
 if ($resultado === TRUE) {
     header("Location: ./index.php?p=productos&correcto=mod");

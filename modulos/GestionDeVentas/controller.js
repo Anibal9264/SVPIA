@@ -171,10 +171,10 @@ function moverCola(num){
     objXMLHttpRequest.send(); 
 }
 function guardarDatosCarrito(num){
-    var cliente = $("#cliente").val();
-    var idcliente = $("#idcliente").val();
+    var cliente = $("#clienteN").val();
     var tClientes = $("#tClientes").val();
-    var tPago = $("#tipoPago").val();
+    var id = $("#clienteID").val();
+    var tp = $("#tipoPago").val();
     
     var objXMLHttpRequest = new XMLHttpRequest();
     objXMLHttpRequest.onreadystatechange = function () {
@@ -187,7 +187,7 @@ function guardarDatosCarrito(num){
             }
         }
     };
-    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/GuardarDatos.php?&num='+num+'&idC='+idcliente+'&C='+cliente+'&T='+tClientes+'&TP='+tPago);
+    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/GuardarDatos.php?&num='+num+'&C='+cliente+'&T='+tClientes+'&id='+id+'&tp='+tp);
     objXMLHttpRequest.send(); 
 }
 
@@ -232,59 +232,73 @@ function establecerCategoria(id){
 }
 
 
-function getClientes(){
-  var objXMLHttpRequest = new XMLHttpRequest();
+function cargarClientes(){
+    var objXMLHttpRequest = new XMLHttpRequest();
     objXMLHttpRequest.onreadystatechange = function () {
         if (objXMLHttpRequest.readyState === 4) {
             if (objXMLHttpRequest.status === 200) {
-                  var options = JSON.parse(objXMLHttpRequest.responseText);
-  Swal.fire({
-  title: 'Clientes',
-  input: 'select',
-  inputOptions: options,
-  showCancelButton: true,
-  confirmButtonText: 'OK',
-  html: "<button class='swal2-confirm swal2-styled' onclick='agregarNew()'>Agregar</button>",
-  showLoaderOnConfirm: true,
-  inputValidator: (value) => {
-    $("#idcliente").val(value);
-    $("#cliente").val(options[value]);
-  }
-  
-  
-}) 
+                document.getElementById("clientesList").innerHTML ="";
+                document.getElementById("clientesList").innerHTML = objXMLHttpRequest.responseText;
             } else {
                 alert('Error Code: ' + objXMLHttpRequest.status);
             }
         }
     };
     objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/getClientes.php');
-    objXMLHttpRequest.send();  
-    
+    objXMLHttpRequest.send();
 }
 
-function agregarNew(){
-     Swal.fire({
-  title: 'Nombre',
-  input: 'text',
-  showCancelButton: true,
-  confirmButtonText: 'Agregar',
-  showLoaderOnConfirm: true,
-  inputValidator: (value) => {
+$(document).ready(function () {
+ 
+    (function ($) {
+ 
+        $('#filtrar').keyup(function () {
+ 
+             var rex = new RegExp($(this).val(), 'i');
+ 
+             $('.buscar tr').hide();
+ 
+             $('.buscar tr').filter(function () {
+               return rex.test($(this).text());
+             }).show();
+ 
+        })
+ 
+    }(jQuery));
+ 
+});
+
+
+function selecionarClientes(srt){
+   $('#clienteN').val(srt.nombre);
+   $('#clienteID').val(srt.id);
+   $('#myModal3').modal('toggle');
+   var num = $("input[name='car']:checked").val();
+   guardarDatosCarrito(num);
+}
+
+function newCliente(){
+    var N = $("#NombreC").val();
+    var T = $("#Telefono").val();
     var objXMLHttpRequest = new XMLHttpRequest();
     objXMLHttpRequest.onreadystatechange = function () {
         if (objXMLHttpRequest.readyState === 4) {
             if (objXMLHttpRequest.status === 200) {
-                getClientes();
+                 Swal.fire({
+                icon: 'success',
+                title: 'Guardado Correctamente!',
+                text: 'Los datos se guardaron correctamente!'
+                }); 
+                cargarClientes();
             } else {
                 alert('Error Code: ' + objXMLHttpRequest.status);
             }
         }
     };
-    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/crearCliente.php?nombre='+value);
+    objXMLHttpRequest.open('GET', 'modulos/GestionDeVentas/newCliente.php?n='+N+'&t='+T);
     objXMLHttpRequest.send();
-  }
-  
-  
-}) 
+}
+
+function cerrarModal3(){
+$('#myModal3').modal('toggle'); 
 }

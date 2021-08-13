@@ -13,7 +13,8 @@ if($cat == "1"){
    $sql = "SELECT *,SUM(pv.cantidad) AS sumaC "
         . "FROM productos left JOIN productos_vendidos as pv "
         . "on pv.producto = id "
-        . "where productos.descripcion like UPPER('%$busqueda%')  "
+        . "where productos.descripcion like UPPER('%$busqueda%') "
+        . "and productos.activo = 1 "
         . "GROUP BY id "
         . "ORDER BY sumaC DESC;"; 
 }else{
@@ -22,6 +23,7 @@ if($cat == "1"){
         . "on pv.producto = id "
         . "where productos.descripcion like UPPER('%$busqueda%') "
         . "and categoria = $cat "
+        . "and productos.activo = 1 "
         . "GROUP BY id "
         . "ORDER BY sumaC DESC;";
     

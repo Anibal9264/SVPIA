@@ -26,6 +26,7 @@ $sentencia = $base_de_datos->query("SELECT date(fecha) as fecha,"
         . "tipoPago "
         . "FROM ventas where date(fecha) between "
         . "date('$desde') and date('$hasta') "
+        . "and tipoPago != 4 "
         . "group by date(fecha);");
 for($i=1; $i<=3 ;$i++){
     $sent = $base_de_datos->query("SELECT sum(total) as total "
@@ -46,6 +47,7 @@ for($i=1; $i<=3 ;$i++){
         . "FROM ventas where week(fecha) between "
         . "week('$desde') and week('$hasta') "
         . "and year(fecha) between year('$desde') and year('$hasta') "
+        . "and tipoPago != 4 "
         . "group by week(fecha);");
     
     for($i=1; $i<=3 ;$i++){
@@ -69,6 +71,7 @@ for($i=1; $i<=3 ;$i++){
         . "FROM ventas where month(fecha) between "
         . "month('$desde') and month('$hasta') "
         . "and year(fecha) between year('$desde') and year('$hasta') "
+        . "and tipoPago != 4 "
         . "group by month(fecha);");
      
         for($i=1; $i<=3 ;$i++){

@@ -1,9 +1,10 @@
 <?php
+
 include_once "../../base_de_datos.php";
-$sentencia = $base_de_datos->query("SELECT * FROM cliente;");
+$sql = "SELECT * FROM cliente ORDER BY cliente.id DESC;";
+$sentencia = $base_de_datos->query($sql);
 $clientes = $sentencia->fetchAll(PDO::FETCH_OBJ);
-$data = [];
 foreach ($clientes as $cliente) {
-  $data += [ "$cliente->id" => $cliente->nombre ];
+    $dato = json_encode($cliente);
+    echo "<tr onclick='selecionarClientes($dato)'><th>$cliente->nombre</th><th>$cliente->telefono</th></tr>";
 }
-echo json_encode($data);

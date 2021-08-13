@@ -17,12 +17,13 @@ $producto = $_POST["producto"];
 $monto = $_POST["monto"];
 $proveedor = $_POST["proveedor"];
 
-$sentencia = $base_de_datos->prepare("UPDATE ingresos SET producto = ?, proveedor = ?, monto = ?, fecha = ? WHERE id = ?;");
-$resultado = $sentencia->execute([$producto,$proveedor, $monto, $fecha, $id]);
+$sentencia = $base_de_datos->prepare("UPDATE ingresos SET producto = '$producto', "
+        . "proveedor = '$proveedor', monto = '$monto', fecha = '$fecha' WHERE id = '$id';");
+$resultado = $sentencia->execute();
 
-if($resultado === TRUE){
-	header("Location: ./index.php?p=ingresos&correcto=mod");
-	exit;
+if ($resultado === TRUE) {
+    header("Location: ./index.php?p=ingresos&correcto=mod");
+    exit;
+} else {
+    echo "Algo salió mal. Por favor verifica que la tabla exista, así como el ID del producto";
 }
-else echo "Algo salió mal. Por favor verifica que la tabla exista, así como el ID del producto";
-?>

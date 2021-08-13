@@ -30,8 +30,9 @@ include_once 'configuracion.php';
         $img = "imgCat/$name";
     }
 
-$sentencia = $base_de_datos->prepare("INSERT INTO categoria(descripcion, img) VALUES (?, ?);");
-$resultado = $sentencia->execute([$descripcion,$img]);
+$sentencia = $base_de_datos->prepare("INSERT INTO categoria(descripcion, img) "
+        . "VALUES ('$descripcion', '$img');");
+$resultado = $sentencia->execute();
 
 if ($resultado === TRUE) {
     header("Location: ./index.php?p=productos&correcto=new");

@@ -7,8 +7,8 @@ exit;
 if(!isset($_GET["id"])) exit();
 $id = $_GET["id"];
 include_once "../../base_de_datos.php";
-$sentencia = $base_de_datos->prepare("DELETE FROM categoria WHERE id = ?;");
-$resultado = $sentencia->execute([$id]);
+$sentencia = $base_de_datos->prepare("DELETE FROM categoria WHERE id = '$id';");
+$resultado = $sentencia->execute();
 if($resultado === TRUE){
 	header("Location: ./index.php?p=productos&correcto=del");
 }else {

@@ -7,7 +7,7 @@ exit;
 }
 include_once "../../base_de_datos.php";
 
-$sentencia = $base_de_datos->query("SELECT * FROM categoria;"); //where id != 1
+$sentencia = $base_de_datos->query("SELECT * FROM categoria;"); 
 $categorias = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
 

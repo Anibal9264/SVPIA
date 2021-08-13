@@ -6,14 +6,14 @@ session_start();
 if (!isset($_SESSION["carritos"])) {
     $_SESSION["carritos"] = [];
 }
- $array = array(
+  $array = array(
     "granT" => 0,
     "cliente" => "",
-    "idcliente" => "",
     "tClientes" => 1,
-    "tPago" => 1,
     "numDiario" => 0,
     "horaP" => "",
+    "idCliente"=>"null",
+    "tipoPago"=>1,
     );
 if (count($_SESSION["carritos"]) == 1 || $hacia === "-1") {
     array_push($_SESSION["carritos"], []);
@@ -30,7 +30,14 @@ if ($hacia == (int) $desde) {
     $desde = 0;
 }
 
+include_once "../../base_de_datos.php";
+
+$sentencia = $base_de_datos->query("SELECT tipoDeCambio FROM local;");
+$tipoDC = $sentencia->fetchAll(PDO::FETCH_OBJ);
+
+
 $car = $_SESSION["carritos"][$desde];
+$granTotal = $car[0]["granT"];
 echo "<div class='row'>
     <div class='col-5 card ml-5 mr-5'>
  <div class='btn-group btn-group-toggle' data-toggle='buttons'>";
@@ -54,7 +61,7 @@ echo "
 </div>
 
 <ul class='list-group'>
-        <div class='addScroll6'>";
+        <div class='addScroll5'>";
 for ($i = 1; $i < count($car); $i++) {
         $producto = $car[$i]["producto"];
         $precioVenta = $producto->precioVenta;
@@ -78,12 +85,22 @@ for ($i = 1; $i < count($car); $i++) {
            <input id='detalle$i' type='hidden' value='$detalle'>";
     }
 
+$tipoC = (float)$tipoDC[0]->tipoDeCambio;
+$us = $granTotal/$tipoC;
+$us = bcdiv($us,'1',2);
+
 echo " </div>                
-    </ul> </div>";
+    </ul>       
+     <h3>Total: ¢$granTotal | $$us</h3>
+   
+      <div class='row justify-content-center mt-2'>
+	            <a href='#' onclick='delCar($desde)' class='btn btn-mod btn-danger ml-1'>Borrar</a>
+		    </div>
+                </div>";
 
 // columna 2
 $car2 = $_SESSION["carritos"][$hacia];
-
+$granTotal2 = $car2[0]["granT"];
 echo "<div class='col-5 card ml-5'>
  <div class='btn-group btn-group-toggle' data-toggle='buttons'>";
 for ($i = 0; $i < count($_SESSION["carritos"]); $i++) {
@@ -133,5 +150,17 @@ for ($i = 1; $i < count($car2); $i++) {
            <input id='detalle$i' type='hidden' value='$detalle'>";
     }
 
-echo " </div> </ul> </div> </div>";
+$tipoC = (float)$tipoDC[0]->tipoDeCambio;
+$us = $granTotal2/$tipoC;
+$us = bcdiv($us,'1',2);
+echo " </div>                
+    </ul>       
+     <h3>Total: $granTotal2 | $$us</h3>
+    <div class='row justify-content-center mt-2'>
+			<a href='#' onclick='delCar($hacia)' class='btn btn-mod btn-danger ml-1'>Borra</a>
+	</div>
+                    
+              
+                </div>
+                </div>";
 
